@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.samsungmusicplayer.MainActivity"
+    android:background="#f2f2f2">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:fitsSystemWindows="true"
+            android:background="#f2f2f2">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    android:layout_marginTop="60dp"
+                    android:orientation="horizontal"
+                    >
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/vibes"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        >
+                        <ImageView
+                            android:adjustViewBounds="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/vibes"
+                            android:scaleType="fitXY"
+                            />
+
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/vibes_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8090 Vibes"
+                        android:textSize="25sp"
+                        android:textColor="#252525"
+
+                        app:layout_constraintTop_toBottomOf="@+id/vibes"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="멜로우 오늘의 무드"
+                        android:textColor="#909090"
+
+                        app:layout_constraintTop_toBottomOf="@+id/vibes_tv"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="5dp"/>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    app:layout_constraintBottom_toBottomOf="parent">
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        app:singleSelection="true">
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#여행"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            android:layout_marginLeft="20dp"
+                            app:chipBackgroundColor="#fcfcfc"/>
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#드라이브"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:chipBackgroundColor="#fcfcfc"
+                            android:layout_marginLeft="15dp"/>
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#휴식"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:chipBackgroundColor="#fcfcfc"
+                            android:layout_marginLeft="15dp"/>
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#독서"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:chipBackgroundColor="#fcfcfc"
+                            android:layout_marginLeft="15dp"/>
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#추억"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:chipBackgroundColor="#fcfcfc"
+                            android:layout_marginLeft="15dp"/>
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#레트로"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:chipBackgroundColor="#fcfcfc"
+                            android:layout_marginLeft="15dp"/>
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#어쿠스틱"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:chipBackgroundColor="#fcfcfc"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="20dp"/>
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="#f2f2f2"
+
+                    app:layout_collapseMode="pin"
+
+                    android:contentInsetLeft="0dp"
+                    android:contentInsetStart="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    android:contentInsetRight="0dp"
+                    android:contentInsetEnd="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetEnd="0dp"
+                    >
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:src="@drawable/left_arrow"
+                        android:layout_marginLeft="20dp"
+                        android:background="#f2f2f2"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8090 Vibes"
+                        android:textSize="20sp"
+                        android:textColor="#252525"
+                        android:layout_marginLeft="15dp"/>
+                    <ImageButton
+                        android:id="@+id/share_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+
+
+
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/share"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="20dp"
+                        android:background="#f2f2f2"
+
+                        />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/heart"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="15dp"
+                        android:background="#f2f2f2"
+
+                        />
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:background="@drawable/nested_scroll_view_bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/below_arrow"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/cross"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toLeftOf="@+id/play_btn"
+                        android:layout_marginRight="15dp"
+
+                        />
+                    <ImageButton
+                        android:id="@+id/play_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/play"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/music1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+
+                        android:theme="@style/Theme.MaterialComponents.Light"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        >
+                        <ImageView
+                            android:adjustViewBounds="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/music1"
+                            android:scaleType="fitXY"
+                            />
+
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ellonica"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/author1"
+                        app:layout_constraintLeft_toRightOf="@+id/music1"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+
+                        android:textColor="#252525"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/author1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rinne"
+                        android:textColor="#909090"
+                        android:layout_marginLeft="15dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title1"
+                        app:layout_constraintLeft_toRightOf="@+id/music1"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dotdotdot"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="#e6e6e6"
+
+                        app:layout_constraintLeft_toRightOf="@+id/music1"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/author1"
+                        android:layout_marginTop="15dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/music2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+
+                        android:theme="@style/Theme.MaterialComponents.Light"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        >
+                        <ImageView
+                            android:adjustViewBounds="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/music2"
+                            android:scaleType="fitXY"
+                            />
+
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Natural Sounds Collection"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/author2"
+                        app:layout_constraintLeft_toRightOf="@+id/music2"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+
+                        android:textColor="#252525"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/author2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ashaneen"
+                        android:textColor="#909090"
+                        android:layout_marginLeft="15dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title2"
+                        app:layout_constraintLeft_toRightOf="@+id/music2"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dotdotdot"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="#e6e6e6"
+
+                        app:layout_constraintLeft_toRightOf="@+id/music2"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/author2"
+                        android:layout_marginTop="15dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/music3"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+
+                        android:theme="@style/Theme.MaterialComponents.Light"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        >
+                        <ImageView
+                            android:adjustViewBounds="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/music3"
+                            android:scaleType="fitXY"
+                            />
+
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Flowing Water"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/author3"
+                        app:layout_constraintLeft_toRightOf="@+id/music3"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+
+                        android:textColor="#252525"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/author3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Beautiful world"
+                        android:textColor="#909090"
+                        android:layout_marginLeft="15dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title3"
+                        app:layout_constraintLeft_toRightOf="@+id/music3"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dotdotdot"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="#e6e6e6"
+
+                        app:layout_constraintLeft_toRightOf="@+id/music3"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/author3"
+                        android:layout_marginTop="15dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/music4"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+
+                        android:theme="@style/Theme.MaterialComponents.Light"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        >
+                        <ImageView
+                            android:adjustViewBounds="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/music4"
+                            android:scaleType="fitXY"
+                            />
+
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/title4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="How Great Throu Art"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/author4"
+                        app:layout_constraintLeft_toRightOf="@+id/music4"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+
+                        android:textColor="#252525"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/author4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mark Smeby"
+                        android:textColor="#909090"
+                        android:layout_marginLeft="15dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title4"
+                        app:layout_constraintLeft_toRightOf="@+id/music4"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dotdotdot"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="#e6e6e6"
+
+                        app:layout_constraintLeft_toRightOf="@+id/music4"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/author4"
+                        android:layout_marginTop="15dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/music5"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+
+                        android:theme="@style/Theme.MaterialComponents.Light"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        >
+                        <ImageView
+                            android:adjustViewBounds="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/music5"
+                            android:scaleType="fitXY"
+                            />
+
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/title5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sanit Cecilia"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/author5"
+                        app:layout_constraintLeft_toRightOf="@+id/music5"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+
+                        android:textColor="#252525"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/author5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Foo Fighters"
+                        android:textColor="#909090"
+                        android:layout_marginLeft="15dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title5"
+                        app:layout_constraintLeft_toRightOf="@+id/music5"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dotdotdot"
+                        android:background="#ffffff"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="#e6e6e6"
+
+                        app:layout_constraintLeft_toRightOf="@+id/music5"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/author5"
+                        android:layout_marginTop="15dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+
+        app:cardCornerRadius="35dp"
+        app:cardElevation="0dp"
+
+        android:theme="@style/Theme.MaterialComponents.Light"
+
+
+        app:strokeColor="#90c8d9"
+        app:strokeWidth="1dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <!--corner radius를 너무 크게하면 일부 휴대폰에서 안보이는 현상 발생 그러니 원을 만들기 위해서는 절반 값을 설정하는 것이 좋음 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/play_music"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                app:cardCornerRadius="20dp"
+
+                app:cardElevation="0dp"
+
+                android:theme="@style/Theme.MaterialComponents.Light"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+
+                >
+                <ImageView
+                    android:id="@+id/play_music_draw"
+                    android:adjustViewBounds="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/music1"
+                    android:scaleType="fitXY"
+                    />
+
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/play_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Ellonica (Rinne)        "
+
+                app:layout_constraintBottom_toTopOf="@+id/play_author"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/play_music"
+                app:layout_constraintVertical_chainStyle="packed"
+
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#252525"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
+            <TextView
+                android:id="@+id/play_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rinne"
+
+                android:layout_marginTop="2dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/play_title"
+                app:layout_constraintLeft_toRightOf="@+id/play_music"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintWidth_max="200dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/play_title"
+                android:layout_marginRight="20dp">
+                <ImageButton
+                    android:id="@+id/prev_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/prev"
+                    android:background="#ffffff"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    app:layout_constraintLeft_toLeftOf="parent"
+
+                    />
+                <FrameLayout
+                    android:id="@+id/frame2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    app:layout_constraintLeft_toRightOf="@+id/prev_btn"
+                    app:layout_constraintRight_toLeftOf="@+id/next_btn"
+                    >
+                    <ImageButton
+                        android:id="@+id/play_this_music_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/play_this_music"
+                        android:visibility="visible"
+                        android:background="#ffffff"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/stop_this_music_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:background="#ffffff"
+                        android:src="@drawable/stop_this_music"
+                        android:visibility="invisible" />
+                </FrameLayout>
+
+                <ImageButton
+                    android:id="@+id/next_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/next"
+                    android:background="#ffffff"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    app:layout_constraintLeft_toRightOf="@+id/frame2"
+                    app:layout_constraintRight_toLeftOf="@+id/play_list"
+                    />
+                <ImageButton
+                    android:id="@+id/play_list"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/play_list"
+                    android:background="#ffffff"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#f2f2f2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/my_music"
+                android:background="#f2f2f2"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="마이 뮤직"
+                android:textColor="#636363"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/melon"
+                android:background="#f2f2f2"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="멜론"
+                android:textColor="#2e7dca"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search"
+                android:background="#f2f2f2"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="검색"
+                android:textColor="#636363"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+    <FrameLayout
+        android:id="@+id/frame3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

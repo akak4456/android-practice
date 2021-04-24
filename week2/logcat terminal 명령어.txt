@@ -1,0 +1,5 @@
+adb logcat -s "LifeCycle"
+
+adb -s 06157df6cb74811e logcat -s "LifeCycle"
+
+에서 06157df6cb74811e 은 adb devices 명령어를 이용해서 볼 수 있는 디바이스 id

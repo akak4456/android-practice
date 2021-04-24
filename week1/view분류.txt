@@ -1,0 +1,114 @@
+스크롤 관련
+android:fadeScrollbars
+android:isScrollContainer
+android:requiresFadingEdge
+android:scrollIndicators
+android:scrollX
+android:scrollY
+android:scrollbarAlwaysDrawHorizontalTrack
+android:scrollbarAlwaysDrawVerticalTrack
+android:scrollbarDefaultDelayBeforeFade
+android:scrollbarFadeDuration
+android:scrollbarSize
+android:scrollbarStyle
+android:scrollbarThumbHorizontal
+android:scrollbarThumbVertical
+android:scrollbarTrackHorizontal
+android:scrollbarTrackVertical
+android:scrollbars
+편의 기능 관련
+android:autofillHints(자동 로그인 완성 같은거?)
+android:autofilledHighlight
+android:importantForAutofill
+android:nextFocusDown
+android:nextFocusForward
+android:nextFocusLeft
+android:nextFocusRight
+android:nextFocusUp
+투명도 관련
+android:alpha
+android:visibility
+백그라운드 관련
+android:background
+android:backgroundTint
+android:backgroundTintMode
+포그라운드 관련
+android:foreground
+android:foregroundGravity
+android:foregroundTint
+android:foregroundTintMode
+기타 스타일 관련
+android:clipToOutline(아마 rounded corner에서 사용? https://stackoverflow.com/questions/5574212/android-view-clipping)
+android:elevation(그림자 주기?, 해당 View 를 Z 축으로 이동하여 하단에 그림자가 깔리는 입체적인 효과를 줄수 있도록 고안된 구글의 머테리얼 디자인입니다.)
+android:fadingEdgeLength
+android:keepScreenOn
+android:outlineAmbientShadowColor
+android:outlineSpotShadowColor
+android:theme
+이벤트 관련
+android:allowClickWhenDisabled
+android:clickable
+android:contextClickable
+android:hapticFeedbackEnabled
+android:longClickable
+android:onClick
+포커스 관련
+android:focusable
+android:focusableInTouchMode
+android:focusedByDefault
+android:screenReaderFocusable
+식별 관련
+android:id
+android:tag
+레이어 관련
+android:layerType
+android:layoutDirection
+android:textAlignment
+android:textDirection
+크기 관련
+android:minHeight
+android:minWidth
+android:scaleX
+android:scaleY
+여백 관련(padding, margin)
+android:padding
+android:paddingBottom
+android:paddingEnd
+android:paddingHorizontal
+android:paddingLeft
+android:paddingRight
+android:paddingStart
+android:paddingTop
+android:paddingVertical
+회전 관련
+android:rotation
+android:rotationX
+android:rotationY
+위치 관련
+android:transformPivotX
+android:transformPivotY
+android:translationX
+android:translationY
+android:translationZ
+기타
+android:accessibilityHeading
+android:accessibilityLiveRegion
+android:accessibilityPaneTitle
+android:accessibilityTraversalAfter
+android:accessibilityTraversalBefore
+android:contentDescription
+android:defaultFocusHighlightEnabled
+android:drawingCacheQuality
+android:fadingEdgeLength
+android:fitsSystemWindows
+android:forceHasOverlappingRendering
+android:importantForAccessibility
+android:importantForContentCapture
+android:duplicateParentState
+android:keyboardNavigationCluster
+android:nextClusterForward
+android:saveEnabled
+android:soundEffectsEnabled
+android:stateListAnimator
+android:tooltipText
+android:transitionName

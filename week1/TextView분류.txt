@@ -1,0 +1,87 @@
+텍스트 사이즈 자동 조정
+android:autoSizeMaxTextSize
+android:autoSizeMinTextSize
+android:autoSizePresetSizes
+android:autoSizeStepGranularity
+android:autoSizeTextType
+텍스트 표시 전략 관련
+android:breakStrategy
+android:ellipsize
+android:marqueeRepeatLimit
+EMS 관련
+android:ems
+android:minEms
+android:maxEms
+이미지 배치 관련
+android:drawableBottom
+android:drawableEnd
+android:drawableLeft
+android:drawablePadding
+android:drawableRight
+android:drawableStart
+android:drawableTint
+android:drawableTintMode
+android:drawableTop
+이벤트, 기능 관련
+android:autoLink
+android:editable
+android:enabled
+android:hint
+linksClickable
+android:scrollHorizontally
+줄 배치 관련
+android:firstBaselineToTopHeight
+android:lastBaselineToBottomHeight
+폰트 관련
+android:fontFamily
+android:fontFeatureSettings
+android:fontVariationSettings
+정렬 관련
+android:gravity
+크기 관련
+android:width
+android:height
+android:maxHeight
+android:maxWidth
+android:minHeight
+android:minWidth
+여백 관련
+android:includeFontPadding
+android:letterSpacing
+android:lineHeight
+android:lineSpacingExtra
+android:lineSpacingMultiplier
+IME관련
+android:imeActionId
+android:imeActionLabel
+android:imeOptions
+android:privateImeOptions
+줄 수 관련
+android:lines
+android:maxLines
+android:minLines
+android:singleLine
+그림자 관련
+android:shadowColor
+android:shadowDx
+android:shadowDy
+android:shadowRadius
+텍스트 관련
+android:text
+android:textAllCaps
+android:textAppearance
+android:textColor
+android:textColorHighlight
+android:textColorHint
+android:textColorLink
+android:textFontWeight
+android:textIsSelectable
+android:textScaleX
+android:textSize
+android:textStyle
+android:typeface
+기타
+android:bufferType
+android:elegantTextHeight
+android:fallbackLineSpacing
+android:freezesText

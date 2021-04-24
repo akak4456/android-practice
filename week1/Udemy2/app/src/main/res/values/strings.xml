@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Udemy2</string>
+    <string name="recommend1_price_line"><strike>"&#65510;169,000</strike></string>
+    <string name="recommend2_price_line"><strike>"&#65510;179,000</strike></string>
+    <string name="recommend3_price_line"><strike>"&#65510;179,000</strike></string>
+    <string name="recommend4_price_line"><strike>"&#65510;169,000</strike></string>
+    <string name="recommend5_price_line"><strike>"&#65510;179,000</strike></string>
+    <string name="recommend6_price_line"><strike>"&#65510;179,000</strike></string>
+
+</resources>
