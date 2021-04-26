@@ -3,19 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f8f8f8"
+    android:layout_height="wrap_content"
+    android:background="@drawable/layout_border"
+
+
     >
     <ImageView
         android:id="@+id/webtoon_img"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleType="fitXY"
-        tools:src="@drawable/mon_webtoon_1"
+        tools:src="@drawable/fri_webtoon_1"
 
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c6c6c6"
+        app:layout_constraintTop_toBottomOf="@+id/webtoon_img"/>
     <TextView
         android:id="@+id/webtoon_title"
         android:layout_width="wrap_content"
@@ -24,7 +31,12 @@
         tools:text="참교육"
         android:textColor="#181818"
         app:layout_constraintTop_toBottomOf="@+id/webtoon_img"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@+id/webtoon_star"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="11dp"
+        android:textStyle="bold"
+        android:textSize="15dp"/>
     <TextView
         android:id="@+id/webtoon_star"
         android:layout_width="wrap_content"
@@ -33,7 +45,11 @@
         tools:text="★ 9.78"
         android:textColor="#e64818"
         app:layout_constraintTop_toBottomOf="@+id/webtoon_title"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@+id/webtoon_author"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"/>
     <TextView
         android:id="@+id/webtoon_author"
         android:layout_width="wrap_content"
@@ -42,5 +58,21 @@
         tools:text="채용택 / 한가람"
         android:textColor="#9d9d9d"
         app:layout_constraintTop_toBottomOf="@+id/webtoon_star"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp"
+        android:layout_marginBottom="12dp"/>
+    <ImageView
+        android:id="@+id/show_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/up"
+
+        app:layout_constraintTop_toBottomOf="@+id/webtoon_title"
+        app:layout_constraintBottom_toTopOf="@+id/webtoon_author"
+        app:layout_constraintLeft_toRightOf="@+id/webtoon_star"
+
+        android:layout_marginLeft="5dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
