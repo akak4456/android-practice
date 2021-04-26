@@ -24,6 +24,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.webtoonListBtn.setOnClickListener{
+            val intent = Intent(this,WebtoonListActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 }
