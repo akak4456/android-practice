@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                     lastNumber++
                 }
                 editor.commit()
-                editorId.putInt(input_id,1)
+                editorId.putInt(input_id,lastNumber)
                 editorId.commit()
             }
             finish()

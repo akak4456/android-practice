@@ -28,12 +28,19 @@ class FragmentMonWebtoon(
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        val isUp = false
         for(i in 1..4){
-            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_1,getString(R.string.mon_webtoon_1_title),getString(R.string.mon_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f)))
-            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_2,getString(R.string.mon_webtoon_2_title),getString(R.string.mon_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f)))
-            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_3,getString(R.string.mon_webtoon_3_title),getString(R.string.mon_webtoon_3_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f)))
-            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_4,getString(R.string.mon_webtoon_4_title),getString(R.string.mon_webtoon_4_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f)))
-            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_5,getString(R.string.mon_webtoon_5_title),getString(R.string.mon_webtoon_5_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f)))
+            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_1,getString(R.string.mon_webtoon_1_title),getString(R.string.mon_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
+            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_2,getString(R.string.mon_webtoon_2_title),getString(R.string.mon_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
+            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_3,getString(R.string.mon_webtoon_3_title),getString(R.string.mon_webtoon_3_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
+            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_4,getString(R.string.mon_webtoon_4_title),getString(R.string.mon_webtoon_4_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
+            webtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_5,getString(R.string.mon_webtoon_5_title),getString(R.string.mon_webtoon_5_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
+        }
+        if(webtoonList.size%3 != 0) {
+            val remainCnt = 3 - webtoonList.size % 3
+            for (i in 1..remainCnt) {
+                webtoonList.add(WebtoonInfo(R.drawable.blank_webtoon, "", "", "", false))
+            }
         }
         val view: View = inflater.inflate(R.layout.fragment_webtoon, container, false)
 
@@ -48,6 +55,9 @@ class FragmentMonWebtoon(
             binding.webtoonTitle.text = webtoon.title
             binding.webtoonAuthor.text = webtoon.author
             binding.webtoonStar.text = webtoon.star
+            if(!webtoon.isUp){
+                binding.showUp.visibility = View.INVISIBLE
+            }
             binding.webtoonImg.setOnClickListener{
                 if(accessId == "none"){
                     val dlg:AlertDialog.Builder = AlertDialog.Builder(context)
@@ -58,23 +68,29 @@ class FragmentMonWebtoon(
                         startActivity(intent)
                     }
                     dlg.show()
-                }else{
+                }else if(it.id != R.drawable.blank_webtoon){
                     val dlg:AlertDialog.Builder = AlertDialog.Builder(context)
                     dlg.setTitle("관심 웹툰 추가")
-                    dlg.setMessage("정말 ["+binding.webtoonTitle.text+"]을 관심웹툰으로 추가하시겠습니까?")
+                    dlg.setMessage("정말 ["+binding.webtoonTitle.text+"]을/를 관심웹툰으로 추가하시겠습니까?")
                     dlg.setPositiveButton("추가") { dialog, which ->
                         val prevLastNumber = sp.getInt(accessId,0)
                         val savedMyInfo = MyInfo(prevLastNumber+1,webtoon.img,webtoon.title,false,false)
                         val gson:Gson = GsonBuilder().create()
                         val strMyInfo = gson.toJson(savedMyInfo)
-                        spWebtoon.edit().putString(accessId+"_"+(prevLastNumber+1),strMyInfo)
+                        sp.edit().putInt(accessId,prevLastNumber+1).commit()
+                        spWebtoon.edit().putString(accessId+"_"+(prevLastNumber+1),strMyInfo).commit()
+                        val dlg:AlertDialog.Builder = AlertDialog.Builder(context)
+                        dlg.setTitle("관심 웹툰 추가")
+                        dlg.setMessage("관심 웹툰에 추가했습니다")
+                        dlg.setPositiveButton("확인") { dialog, which ->
+                        }
+                        dlg.show()
                     }
                     dlg.setNegativeButton("취소") { dialog, which ->
 
                     }
                     dlg.show()
                 }
-
             }
             grid.addView(binding.root,stageWidth/3,WRAP_CONTENT)
         }

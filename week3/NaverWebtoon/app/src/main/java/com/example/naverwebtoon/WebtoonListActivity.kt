@@ -10,6 +10,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.naverwebtoon.databinding.ActivityWebtoonListBinding
@@ -41,11 +42,15 @@ class WebtoonListActivity : AppCompatActivity() {
 
         binding.viewPagerWebtoon.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                Log.d("TMP","SELECTED")
                 super.onPageSelected(position)
                 if(initialHeight == 0)
                     initialHeight = binding.viewPagerWebtoon.findViewById<GridLayout>(R.id.grid_main).height / rowCnt[0]
                 binding.viewPagerWebtoon.layoutParams.height = initialHeight* rowCnt[position]
                 binding.viewPagerWebtoon.requestLayout()
+                binding.viewPagerWebtoon.post {
+                    binding.scrollWebtoon.fullScroll(ScrollView.FOCUS_UP);
+                }
             }
 
         })
