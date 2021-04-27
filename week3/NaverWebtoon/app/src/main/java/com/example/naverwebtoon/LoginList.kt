@@ -2,8 +2,10 @@ package com.example.naverwebtoon
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.naverwebtoon.databinding.ActivityLoginListBinding
 
 class LoginList : AppCompatActivity() {
@@ -21,15 +23,30 @@ class LoginList : AppCompatActivity() {
         binding = ActivityLoginListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loginList.add(LoginInfo("akak4456"))
-        loginList.add(LoginInfo("joseunghyo123"))
-        //일단 임시 저장. 나중에 바꿀 예정
-
         context = this
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("LifeCycle","LoginList-onStart")
+        val spId:SharedPreferences = getSharedPreferences("sharedId", Context.MODE_PRIVATE)
+        val allEntries: Map<String, *> = spId.all
+        loginList.clear()
+        for ((key, value) in allEntries) {
+            if(key != "alreadyId")
+            loginList.add(LoginInfo(key))
+        }
+
 
         loginListAdapter = LoginListAdapter(context,loginList)
 
         binding.lvLoginList.adapter = loginListAdapter
+
+        binding.lvLoginList.setOnItemClickListener{
+            parent,view,position,id->
+            spId.edit().putString("alreadyId",loginList[position].id).commit()
+            finish()
+        }
 
         binding.loginOtherBtn.setOnClickListener{
             val intent = Intent(context,LoginActivity::class.java)

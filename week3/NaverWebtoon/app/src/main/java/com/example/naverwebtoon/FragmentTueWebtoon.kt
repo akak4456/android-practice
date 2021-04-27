@@ -1,24 +1,23 @@
 package com.example.naverwebtoon
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.GridLayout
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.naverwebtoon.databinding.WebtoonItemBinding
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
-class FragmentTueWebtoon: Fragment() {
+class FragmentTueWebtoon(
+    accessId: String,
+    sp: SharedPreferences,
+    spWebtoon: SharedPreferences
+) : Fragment() {
     private var webtoonList:ArrayList<WebtoonInfo> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater,

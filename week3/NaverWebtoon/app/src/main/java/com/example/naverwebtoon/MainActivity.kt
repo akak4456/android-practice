@@ -1,6 +1,8 @@
 package com.example.naverwebtoon
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,7 +30,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,WebtoonListActivity::class.java)
             startActivity(intent)
         }
+        binding.myBtn.setOnClickListener{
+            val intent = Intent(this,MyActivity::class.java)
+            startActivity(intent)
+        }
+        binding.clearAllBtn.setOnClickListener{
+            val spId: SharedPreferences = getSharedPreferences("sharedId", Context.MODE_PRIVATE)
+            val editorId: SharedPreferences.Editor = spId.edit()
+            val sp: SharedPreferences = getSharedPreferences("sharedWebtoon", Context.MODE_PRIVATE)
+            val editor: SharedPreferences.Editor = sp.edit()
 
+            editorId.clear().commit()
+            editor.clear().commit()
+        }
 
     }
 }

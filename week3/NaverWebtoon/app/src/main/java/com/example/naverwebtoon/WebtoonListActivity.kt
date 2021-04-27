@@ -1,5 +1,8 @@
 package com.example.naverwebtoon
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,13 +26,17 @@ class WebtoonListActivity : AppCompatActivity() {
 
     private var initialHeight:Int = 0
 
+    private lateinit var accessId:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWebtoonListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         binding.viewPagerAd.adapter = ViewPagerAdAdapter(this)
-        binding.viewPagerWebtoon.adapter = ViewPagerWebtoonAdapter(this)
+
         binding.viewPagerWebtoon.offscreenPageLimit = 7
 
         binding.viewPagerWebtoon.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -42,11 +49,25 @@ class WebtoonListActivity : AppCompatActivity() {
             }
 
         })
-        TabLayoutMediator(binding.tabLayout,binding.viewPagerWebtoon){tab,position->tab.text=tabTextList[position]}.attach()
+
+        binding.bottomAppbar.goToMyBtn.setOnClickListener{
+            val intent = Intent(this,MyActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    override fun onStart() {
+        super.onStart()
+        val sp:SharedPreferences = getSharedPreferences("sharedId", Context.MODE_PRIVATE)
+        val spWebtoon:SharedPreferences = getSharedPreferences("sharedWebtoon",Context.MODE_PRIVATE)
+        if(sp.contains("alreadyId")){
+            accessId = sp.getString("alreadyId","none").toString()
+        }else{
+            accessId = "none"
+            sp.edit().putString("alreadyId",accessId)
+        }
+        binding.viewPagerWebtoon.adapter = ViewPagerWebtoonAdapter(this,accessId,sp,spWebtoon)
+        TabLayoutMediator(binding.tabLayout,binding.viewPagerWebtoon){tab,position->tab.text=tabTextList[position]}.attach()
     }
 }
