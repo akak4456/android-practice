@@ -75,6 +75,11 @@ class MyActivity : AppCompatActivity() {
             changeTitleBuilder.show()
             true
         }
+        binding.lvMy.setOnItemClickListener{
+            parent,view,position,id->
+            val intent = Intent(context,ReplyActivity::class.java)
+            startActivity(intent)
+        }
         binding.bottomAppbar.goToWebtoonBtn.setOnClickListener{
             val intent = Intent(this,WebtoonListActivity::class.java)
             startActivity(intent)
@@ -109,6 +114,7 @@ class MyActivity : AppCompatActivity() {
         val editor:SharedPreferences.Editor = spWebtoon.edit()
         val allEntries: Map<String, *> = spWebtoon.all
         val gson: Gson = GsonBuilder().create()
+        myList.clear()
         for ((key, value) in allEntries) {
             if(key.contains(accessId)){
                 val myInfo:MyInfo = gson.fromJson(value.toString(),MyInfo::class.java)

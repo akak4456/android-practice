@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".ReplyActivity"></activity>
         <activity android:name=".MyActivity" />
         <activity android:name=".WebtoonListActivity" />
         <activity android:name=".LoginActivity" />
