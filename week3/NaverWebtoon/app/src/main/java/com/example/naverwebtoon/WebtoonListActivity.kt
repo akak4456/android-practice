@@ -2,27 +2,25 @@ package com.example.naverwebtoon
 
 import android.content.Context
 import android.content.Intent
-import android.content.ReceiverCallNotAllowedException
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import androidx.viewpager2.widget.ViewPager2
 import com.example.naverwebtoon.databinding.ActivityWebtoonListBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.*
+import kotlin.concurrent.timer
 
 
 class WebtoonListActivity : AppCompatActivity() {
@@ -31,13 +29,10 @@ class WebtoonListActivity : AppCompatActivity() {
 
     private val tabTextList = arrayListOf("월","화","수","목","금","토","일")
 
-    private val rowCnt:ArrayList<Int> = arrayListOf(7,5,9,5,4,10,12)
-
-    private var initialHeight:Int = 0
-
     private lateinit var accessId:String
 
-    private var myLastVisiblePos = 0
+
+    private var isToolbarShow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +45,15 @@ class WebtoonListActivity : AppCompatActivity() {
 
         binding.viewPagerWebtoon.offscreenPageLimit = 1
 
-
-        var initialHeight = 0
         var originalPos = 987654321
         binding.viewPagerWebtoon.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                if(isToolbarShow){
+                    showViews()
+                }else{
+                    hideViews()
+                }
                 if(originalPos == 987654321)
                     originalPos = binding.nestedWebtoon.y.toInt()
                 else
@@ -87,7 +85,9 @@ class WebtoonListActivity : AppCompatActivity() {
                         }
                     }
                     if (scrollY == 0) {
-                        Log.i("FragmentActivity.TAG", "TOP SCROLL")
+                        hideViews()
+                    }else{
+                        showViews()
                     }
                     if (scrollY == v.measuredHeight - v.getChildAt(0)
                             .measuredHeight
@@ -103,13 +103,32 @@ class WebtoonListActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
+        runOnUiThread { val span = SpannableString(String.format("%d / 5",(binding.viewPagerAd.currentItem)%5+1))
+            span.setSpan(ForegroundColorSpan(Color.WHITE),0,1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            span.setSpan(ForegroundColorSpan(Color.parseColor("#746e6e")),2,span.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            binding.tvAdCnt.text = span }
+        val timer = timer(period=5000,initialDelay = 5000){
+            binding.viewPagerAd.currentItem = binding.viewPagerAd.currentItem + 1
+        }
+        binding.viewPagerAd.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                runOnUiThread { val span = SpannableString(String.format("%d / 5",(binding.viewPagerAd.currentItem)%5+1))
+                    span.setSpan(ForegroundColorSpan(Color.WHITE),0,1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    span.setSpan(ForegroundColorSpan(Color.parseColor("#746e6e")),2,span.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.tvAdCnt.text = span }
+            }
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+            }
+        })
     }
 
     override fun onStart() {
         super.onStart()
         val sp:SharedPreferences = getSharedPreferences("sharedId", Context.MODE_PRIVATE)
         val spWebtoon:SharedPreferences = getSharedPreferences("sharedWebtoon",Context.MODE_PRIVATE)
+
         if(sp.contains("alreadyId")){
             accessId = sp.getString("alreadyId","none").toString()
         }else{
@@ -120,14 +139,43 @@ class WebtoonListActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout,binding.viewPagerWebtoon){tab,position->tab.text=tabTextList[position]}.attach()
     }
 
-    private fun hideViews(view: View) {
-        view.animate().translationY((-view.getHeight()).toFloat())
-            .setInterpolator(AccelerateInterpolator(2F))
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if(hasFocus){
+            binding.toolbar.y = (-binding.toolbar.height).toFloat()
+            binding.belowAd.y = binding.belowAd.height.toFloat()
+
+            Log.d("TMP",Calendar.DAY_OF_WEEK.toString())
+
+            when(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
+                Calendar.MONDAY->binding.viewPagerWebtoon.currentItem=0
+                Calendar.TUESDAY->binding.viewPagerWebtoon.currentItem=1
+                Calendar.WEDNESDAY->binding.viewPagerWebtoon.currentItem=2
+                Calendar.THURSDAY->binding.viewPagerWebtoon.currentItem=3
+                Calendar.FRIDAY->binding.viewPagerWebtoon.currentItem=4
+                Calendar.SATURDAY->binding.viewPagerWebtoon.currentItem=5
+                Calendar.SUNDAY->binding.viewPagerWebtoon.currentItem=6
+                else->binding.viewPagerWebtoon.currentItem=0
+            }
+        }
     }
 
-    private fun showViews(view:View) {
-        view.animate().translationY(0F)
-            .setInterpolator(DecelerateInterpolator(2F))
+
+    private fun hideViews() {
+        if(isToolbarShow) {
+            binding.toolbar.animate().translationY((-binding.toolbar.height).toFloat()).interpolator = AccelerateInterpolator(2F)
+            binding.belowAd.animate().translationY((binding.belowAd.height).toFloat()).interpolator = AccelerateInterpolator(2F)
+            isToolbarShow = false
+        }
+    }
+
+    private fun showViews() {
+        if(!isToolbarShow) {
+            binding.toolbar.animate().translationY(0F).interpolator = DecelerateInterpolator(2F)
+            binding.belowAd.animate().translationY(0F).interpolator = DecelerateInterpolator(2F)
+            isToolbarShow = true
+        }
     }
 
     fun pxToDp(px: Int): Int {

@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,private val accessId:String,private val sp:SharedPreferences,private val spWebtoon:SharedPreferences) : FragmentStateAdapter(fragmentAdcitivy) {
@@ -24,7 +26,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
         val friWebtoonList = ArrayList<WebtoonInfo>()
         val satWebtoonList = ArrayList<WebtoonInfo>()
         val sunWebtoonList = ArrayList<WebtoonInfo>()
-        var isUp = false
+        var isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY
         for(i in 1..4){
             monWebtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_1,fragmentAdcitivy.getString(R.string.mon_webtoon_1_title),fragmentAdcitivy.getString(R.string.mon_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             monWebtoonList.add(WebtoonInfo(R.drawable.mon_webtoon_2,fragmentAdcitivy.getString(R.string.mon_webtoon_2_title),fragmentAdcitivy.getString(R.string.mon_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
@@ -39,7 +41,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
             }
         }
 
-        isUp = false
+        isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY
         for(i in 1..4){
             tueWebtoonList.add(WebtoonInfo(R.drawable.tue_webtoon_1,fragmentAdcitivy.getString(R.string.tue_webtoon_1_title),fragmentAdcitivy.getString(R.string.tue_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             tueWebtoonList.add(WebtoonInfo(R.drawable.tue_webtoon_2,fragmentAdcitivy.getString(R.string.tue_webtoon_2_title),fragmentAdcitivy.getString(R.string.tue_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
@@ -53,7 +55,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
                 tueWebtoonList.add(WebtoonInfo(R.drawable.blank_webtoon, "", "", "", false))
             }
         }
-        isUp = false
+        isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY
         for(i in 1..4){
             wedWebtoonList.add(WebtoonInfo(R.drawable.wed_webtoon_1,fragmentAdcitivy.getString(R.string.wed_webtoon_1_title),fragmentAdcitivy.getString(R.string.wed_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             wedWebtoonList.add(WebtoonInfo(R.drawable.wed_webtoon_2,fragmentAdcitivy.getString(R.string.wed_webtoon_2_title),fragmentAdcitivy.getString(R.string.wed_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
@@ -67,7 +69,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
                 wedWebtoonList.add(WebtoonInfo(R.drawable.blank_webtoon, "", "", "", false))
             }
         }
-        isUp = false
+        isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY
         for(i in 1..4){
             thuWebtoonList.add(WebtoonInfo(R.drawable.thu_webtoon_1,fragmentAdcitivy.getString(R.string.thu_webtoon_1_title),fragmentAdcitivy.getString(R.string.thu_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             thuWebtoonList.add(WebtoonInfo(R.drawable.thu_webtoon_2,fragmentAdcitivy.getString(R.string.thu_webtoon_2_title),fragmentAdcitivy.getString(R.string.thu_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
@@ -81,7 +83,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
                 thuWebtoonList.add(WebtoonInfo(R.drawable.blank_webtoon, "", "", "", false))
             }
         }
-        isUp = false
+        isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY
         for(i in 1..4){
             friWebtoonList.add(WebtoonInfo(R.drawable.fri_webtoon_1,fragmentAdcitivy.getString(R.string.fri_webtoon_1_title),fragmentAdcitivy.getString(R.string.fri_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             friWebtoonList.add(WebtoonInfo(R.drawable.fri_webtoon_2,fragmentAdcitivy.getString(R.string.fri_webtoon_2_title),fragmentAdcitivy.getString(R.string.fri_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
@@ -95,7 +97,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
                 friWebtoonList.add(WebtoonInfo(R.drawable.blank_webtoon, "", "", "", false))
             }
         }
-        isUp = false
+        isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
         for(i in 1..4){
             satWebtoonList.add(WebtoonInfo(R.drawable.sat_webtoon_1,fragmentAdcitivy.getString(R.string.sat_webtoon_1_title),fragmentAdcitivy.getString(R.string.sat_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             satWebtoonList.add(WebtoonInfo(R.drawable.sat_webtoon_2,fragmentAdcitivy.getString(R.string.sat_webtoon_2_title),fragmentAdcitivy.getString(R.string.sat_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
@@ -109,7 +111,7 @@ class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,priv
                 satWebtoonList.add(WebtoonInfo(R.drawable.blank_webtoon, "", "", "", false))
             }
         }
-        isUp = false
+        isUp = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
         for(i in 1..4){
             sunWebtoonList.add(WebtoonInfo(R.drawable.sun_webtoon_1,fragmentAdcitivy.getString(R.string.sun_webtoon_1_title),fragmentAdcitivy.getString(R.string.sun_webtoon_1_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))
             sunWebtoonList.add(WebtoonInfo(R.drawable.sun_webtoon_2,fragmentAdcitivy.getString(R.string.sun_webtoon_1_title),fragmentAdcitivy.getString(R.string.sun_webtoon_2_author),"★ "+String.format("%.2f", Random.nextInt(700,1000)/100.0f),isUp))

@@ -10,20 +10,18 @@ class ViewPagerAdAdapter(fragmentAdcitivy:FragmentActivity) : FragmentStateAdapt
         private const val NUM_PAGES = 5
     }
 
-    override fun getItemCount(): Int {
-        return NUM_PAGES
-    }
+    override fun getItemCount(): Int = Int.MAX_VALUE
 
     override fun createFragment(position: Int): Fragment {
-        if(position == 0){
+        if(position.rem(5) == 0){
             return FragmentAd1()
-        }else if(position == 1){
+        }else if(position.rem(5) == 1){
             return FragmentAd2()
-        }else if(position == 2){
+        }else if(position.rem(5) == 2){
             return FragmentAd3()
-        }else if(position == 3){
+        }else if(position.rem(5) == 3){
             return FragmentAd4()
-        }else if(position == 4){
+        }else if(position.rem(5) == 4){
             return FragmentAd5()
         }
         return FragmentAd1()
