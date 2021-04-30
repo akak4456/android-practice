@@ -13,6 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.naverwebtoon.databinding.ActivityReplyBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ReplyActivity : AppCompatActivity() {
     private lateinit var binding:ActivityReplyBinding
@@ -96,11 +99,14 @@ class ReplyActivity : AppCompatActivity() {
         }
 
         binding.addReplyBtn.setOnClickListener{
-            adapter.addData(ReplyInfo(accessId,"123",binding.addReplyMsg.text.toString(),0,0,false,false))
+            val sdfNow = SimpleDateFormat("yyyy-MM-dd HH:mm");
+            val time = sdfNow.format(Date(System.currentTimeMillis()));
+            adapter.addData(ReplyInfo(accessId,time.toString(),binding.addReplyMsg.text.toString(),0,0,false,false))
             Toast.makeText(this,"댓글을 달았습니다",Toast.LENGTH_SHORT).show()
             binding.addReplyHide.visibility = View.VISIBLE
             binding.addReplyShow.visibility = View.INVISIBLE
             binding.addReplyMsg.setText("")
+            binding.replyRv.scrollToPosition(adapter.size()-1)
         }
     }
 

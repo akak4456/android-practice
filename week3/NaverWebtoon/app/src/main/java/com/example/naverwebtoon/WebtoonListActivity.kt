@@ -34,6 +34,8 @@ class WebtoonListActivity : AppCompatActivity() {
 
     private var isToolbarShow = false
 
+    private var isStart = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWebtoonListBinding.inflate(layoutInflater)
@@ -65,14 +67,14 @@ class WebtoonListActivity : AppCompatActivity() {
 
                 Log.d("TMP",binding.viewPagerWebtoon.findViewById<RecyclerView>(R.id.webtoon_rv).height.toString())
                 binding.nestedWebtoon.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                    Log.d("TMP",binding.ll.y.toString())
+                    val threshold = -(pxToDp(binding.viewPagerAd.height)-pxToDp(binding.toolbar.height))
                     if (scrollY > oldScrollY) {
-                        if(pxToDp((binding.ll.y + (oldScrollY - scrollY)).toInt()) > -196) {
+                        if(pxToDp((binding.ll.y + (oldScrollY - scrollY)).toInt()) > threshold) {
                             binding.ll.y = binding.ll.y + (oldScrollY - scrollY).toFloat()
                             binding.nestedWebtoon.y = binding.nestedWebtoon.y + (oldScrollY - scrollY).toFloat()
                         }else {
-                            binding.nestedWebtoon.y = binding.nestedWebtoon.y + (dpToPx(-196)-binding.ll.y.toInt())
-                            binding.ll.y = dpToPx(-196).toFloat()
+                            binding.nestedWebtoon.y = binding.nestedWebtoon.y + (dpToPx(threshold)-binding.ll.y.toInt())
+                            binding.ll.y = dpToPx(threshold).toFloat()
                         }
                     }
                     if (scrollY < oldScrollY) {
@@ -108,7 +110,8 @@ class WebtoonListActivity : AppCompatActivity() {
             span.setSpan(ForegroundColorSpan(Color.parseColor("#746e6e")),2,span.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.tvAdCnt.text = span }
         val timer = timer(period=5000,initialDelay = 5000){
-            binding.viewPagerAd.currentItem = binding.viewPagerAd.currentItem + 1
+            runOnUiThread { binding.viewPagerAd.currentItem = binding.viewPagerAd.currentItem + 1 }
+
         }
         binding.viewPagerAd.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -142,7 +145,8 @@ class WebtoonListActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if(hasFocus){
+        if(hasFocus&&!isStart){
+            isStart = true
             binding.toolbar.y = (-binding.toolbar.height).toFloat()
             binding.belowAd.y = binding.belowAd.height.toFloat()
 

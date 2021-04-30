@@ -50,6 +50,9 @@ class ReplyAdapter(private var context: Context, private val reply:ArrayList<Rep
         reply[position].isDown = targetValue
         notifyDataSetChanged()
     }
+    fun size(): Int {
+        return reply.size
+    }
 
     inner class ViewHolder(private val binding: ReplyItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun setData(model: ReplyInfo,position:Int) {

@@ -1,6 +1,7 @@
 package com.example.naverwebtoon
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.util.Log
@@ -17,7 +18,7 @@ import com.example.naverwebtoon.databinding.WebtoonItemBinding
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-class MyAdapter(private var context: Context, private val myList:ArrayList<MyInfo>,private val accessId:String,private val sp:SharedPreferences,private val editor:SharedPreferences.Editor) : BaseAdapter()  {
+class MyAdapter(private var context: Context, private val myList:ArrayList<MyInfo>,private val accessId:String,private val sp:SharedPreferences,private val editor:SharedPreferences.Editor,private val spId:SharedPreferences) : BaseAdapter()  {
 
     private val gson:Gson = GsonBuilder().create()
 
@@ -60,6 +61,10 @@ class MyAdapter(private var context: Context, private val myList:ArrayList<MyInf
         val type = getItemViewType(position)
         if(type == 0) {
             optionBinding = MyOptionBinding.inflate(inflater, parent, false)
+            optionBinding.logoutBtn.setOnClickListener{
+                spId.edit().putString("alreadyId","none").commit()
+                context.startActivity(Intent(context,LoginList::class.java))
+            }
             return optionBinding.root
         }else{
             val newPosition = position-1

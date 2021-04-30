@@ -123,7 +123,7 @@ class MyActivity : AppCompatActivity() {
             }
         }
         myList.sortBy { myInfo -> myInfo.key  }
-        myAdapter = MyAdapter(this,myList,accessId,spWebtoon,editor)
+        myAdapter = MyAdapter(this,myList,accessId,spWebtoon,editor,spId)
 
         binding.lvMy.adapter = myAdapter
 

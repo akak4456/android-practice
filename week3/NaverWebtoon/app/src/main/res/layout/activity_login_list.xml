@@ -23,7 +23,7 @@
     <ImageView
         android:id="@+id/naver_logo"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:src="@drawable/naver_logo"
 
