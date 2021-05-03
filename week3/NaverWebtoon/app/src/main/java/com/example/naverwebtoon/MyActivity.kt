@@ -1,17 +1,17 @@
 package com.example.naverwebtoon
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView.OnItemLongClickListener
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.naverwebtoon.databinding.ActivityMyBinding
@@ -21,7 +21,7 @@ import com.google.gson.GsonBuilder
 
 class MyActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityMyBinding
+    private lateinit var binding: ActivityMyBinding
 
     private var myList:ArrayList<MyInfo> = ArrayList()
 
@@ -57,11 +57,51 @@ class MyActivity : AppCompatActivity() {
 
         binding.lvMy.setOnTouchListener(touchListener)
 
+        binding.lvMy.addHeaderView(layoutInflater.inflate(R.layout.my_option,null,false))
+
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        binding.searchBtn.setOnClickListener{
+            if(binding.searchFrame.visibility == View.INVISIBLE){
+                binding.searchFrame.visibility = View.VISIBLE
+                binding.searchText.requestFocus()
+
+                imm.showSoftInput(binding.searchText, InputMethodManager.SHOW_IMPLICIT)
+            }else{
+                binding.searchFrame.visibility = View.INVISIBLE
+                imm.hideSoftInputFromWindow(binding.searchText.windowToken,0)
+                binding.searchText.setText("")
+            }
+        }
+
+        binding.searchText.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                cs: CharSequence,
+                arg1: Int,
+                arg2: Int,
+                arg3: Int
+            ) {
+                // When user changed the Text
+                this@MyActivity.myAdapter.filter.filter(cs)
+            }
+
+            override fun beforeTextChanged(
+                arg0: CharSequence, arg1: Int, arg2: Int,
+                arg3: Int
+            ) {
+            }
+
+            override fun afterTextChanged(arg0: Editable) {
+            }
+        })
+
+
         binding.lvMy.setOnItemLongClickListener{parent,view,position,id->
             Log.d("TMP",position.toString())
             val editText = EditText(context)
 
-            val changeTitleBuilder:AlertDialog.Builder = AlertDialog.Builder(context)
+            val changeTitleBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
             changeTitleBuilder.setTitle("관심 웹툰 제목 변경")
             changeTitleBuilder.setView(editText)
             changeTitleBuilder.setPositiveButton("변경") { dialog, which ->
@@ -94,7 +134,7 @@ class MyActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val spId:SharedPreferences = getSharedPreferences("sharedId",Context.MODE_PRIVATE)
+        val spId: SharedPreferences = getSharedPreferences("sharedId",Context.MODE_PRIVATE)
         val spWebtoon:SharedPreferences = getSharedPreferences("sharedWebtoon", Context.MODE_PRIVATE)
         if(spId.contains("alreadyId")){
             accessId = spId.getString("alreadyId","none").toString()
@@ -110,7 +150,10 @@ class MyActivity : AppCompatActivity() {
             binding.loginFirst.visibility = View.INVISIBLE
             binding.lvMy.visibility = View.VISIBLE
         }
-
+        binding.lvMy.findViewById<Button>(R.id.logout_btn).setOnClickListener{
+            spId.edit().putString("alreadyId","none").commit()
+            startActivity(Intent(context,LoginList::class.java))
+        }
         val editor:SharedPreferences.Editor = spWebtoon.edit()
         val allEntries: Map<String, *> = spWebtoon.all
         val gson: Gson = GsonBuilder().create()
@@ -123,7 +166,7 @@ class MyActivity : AppCompatActivity() {
             }
         }
         myList.sortBy { myInfo -> myInfo.key  }
-        myAdapter = MyAdapter(this,myList,accessId,spWebtoon,editor,spId)
+        myAdapter = MyAdapter(this,myList,accessId,spWebtoon,editor,spId,myList)
 
         binding.lvMy.adapter = myAdapter
 

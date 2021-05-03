@@ -18,7 +18,8 @@ import com.example.naverwebtoon.databinding.WebtoonItemBinding
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-class ReplyAdapter(private var context: Context, private val reply:ArrayList<ReplyInfo>) : RecyclerView.Adapter<ReplyAdapter.ViewHolder>() {
+class ReplyAdapter(private var context: Context, private val reply: ArrayList<ReplyInfo>) :
+    RecyclerView.Adapter<ReplyAdapter.ViewHolder>(),ItemTouchHelperListener {
 
     lateinit var bindind: ReplyItemBinding
 
@@ -28,7 +29,7 @@ class ReplyAdapter(private var context: Context, private val reply:ArrayList<Rep
         return ViewHolder(bindind)
     }
 
-    fun addData(replyInfo:ReplyInfo){
+    fun addData(replyInfo: ReplyInfo) {
         reply.add(replyInfo)
         notifyDataSetChanged()
     }
@@ -38,68 +39,95 @@ class ReplyAdapter(private var context: Context, private val reply:ArrayList<Rep
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(reply[position],position)
+        holder.setData(reply[position], position)
 
     }
 
-    fun changeIsUp(position:Int, targetValue:Boolean){
+    fun changeIsUp(position: Int, targetValue: Boolean) {
         reply[position].isUp = targetValue
         notifyDataSetChanged()
     }
-    fun changeIsDown(position:Int, targetValue:Boolean){
+
+    fun changeIsDown(position: Int, targetValue: Boolean) {
         reply[position].isDown = targetValue
         notifyDataSetChanged()
     }
+
     fun size(): Int {
         return reply.size
     }
 
-    inner class ViewHolder(private val binding: ReplyItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun setData(model: ReplyInfo,position:Int) {
+    inner class ViewHolder(private val binding: ReplyItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun setData(model: ReplyInfo, position: Int) {
             binding.replyAuthor.text = model.replyAuthor
             binding.replyTime.text = model.replyDate
-            var ss = SpannableString("    "+model.replyMsg)
-            ss.setSpan(CenteredImageSpan(context,R.drawable.best),0,1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            ss.setSpan(ForegroundColorSpan(Color.BLACK),2,ss.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            var ss = SpannableString("    " + model.replyMsg)
+            ss.setSpan(
+                CenteredImageSpan(context, R.drawable.best),
+                0,
+                1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            ss.setSpan(
+                ForegroundColorSpan(Color.BLACK),
+                2,
+                ss.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             binding.replyMsg.text = ss
 
             binding.upBtn.text = model.upCnt.toString()
             binding.downBtn.text = model.downCnt.toString()
 
-            if(model.isUp){
+            if (model.isUp) {
                 binding.upBtn.setBackgroundResource(R.drawable.up_btn_checked)
                 binding.upBtn.setTextColor(Color.parseColor("#fb5859"))
 
-            }else{
+            } else {
                 binding.upBtn.setBackgroundResource(R.drawable.button_unchecked)
                 binding.upBtn.setTextColor(Color.parseColor("#333333"))
             }
 
-            if(model.isDown){
+            if (model.isDown) {
                 binding.downBtn.setBackgroundResource(R.drawable.down_btn_checked)
                 binding.downBtn.setTextColor(Color.parseColor("#06a5e7"))
-            }else{
+            } else {
                 binding.downBtn.setBackgroundResource(R.drawable.button_unchecked)
                 binding.downBtn.setTextColor(Color.parseColor("#333333"))
             }
 
-            binding.upBtn.setOnClickListener{
-                if(reply[position].isUp){
-                    changeIsUp(position,false)
-                }else{
-                    changeIsUp(position,true)
-                    changeIsDown(position,false)
+            binding.upBtn.setOnClickListener {
+                if (reply[position].isUp) {
+                    changeIsUp(position, false)
+                } else {
+                    changeIsUp(position, true)
+                    changeIsDown(position, false)
                 }
             }
-            binding.downBtn.setOnClickListener{
-                if(reply[position].isDown){
-                    changeIsDown(position,false)
-                }else{
-                    changeIsDown(position,true)
-                    changeIsUp(position,false)
+            binding.downBtn.setOnClickListener {
+                if (reply[position].isDown) {
+                    changeIsDown(position, false)
+                } else {
+                    changeIsDown(position, true)
+                    changeIsUp(position, false)
                 }
             }
         }
 
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        val re = reply[fromPosition]
+        reply.removeAt(fromPosition)
+        reply.add(toPosition,re)
+
+        notifyItemMoved(fromPosition, toPosition)
+        return true
+    }
+
+    override fun onItemSwipe(position: Int) {
+        reply.removeAt(position)
+        notifyItemRemoved(position)
     }
 }

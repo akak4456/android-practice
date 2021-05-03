@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class FragmentWebtoon(
-        private val webtoonList:ArrayList<WebtoonInfo>,
-        private val accessId: String,
-        private val sp: SharedPreferences,
-        private val spWebtoon: SharedPreferences
+    private val webtoonList: ArrayList<WebtoonInfo>,
+    private val accessId: String,
+    private val sp: SharedPreferences,
+    private val spWebtoon: SharedPreferences
 ) : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,7 +29,7 @@ class FragmentWebtoon(
         val numberOfColumns = 3 // 한줄에 5개의 컬럼을 추가합니다.
         val mGridLayoutManager = GridLayoutManager(context, numberOfColumns)
         mGridLayoutManager.isAutoMeasureEnabled = true
-        re.setLayoutManager(mGridLayoutManager)
+        re.layoutManager = mGridLayoutManager
         return view
     }
 }

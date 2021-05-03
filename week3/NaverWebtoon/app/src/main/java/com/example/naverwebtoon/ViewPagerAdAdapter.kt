@@ -2,9 +2,12 @@ package com.example.naverwebtoon
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ViewPagerAdAdapter(fragmentAdcitivy:FragmentActivity) : FragmentStateAdapter(fragmentAdcitivy) {
+class ViewPagerAdAdapter(
+    fragmentAdcitivy: FragmentActivity
+) : FragmentStateAdapter(fragmentAdcitivy) {
 
     companion object{
         private const val NUM_PAGES = 5

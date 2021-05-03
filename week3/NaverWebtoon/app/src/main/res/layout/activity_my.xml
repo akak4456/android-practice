@@ -58,6 +58,27 @@
 
             android:layout_marginRight="20dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/search_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="#ffffff"
+        android:elevation="20dp"
+
+        android:visibility="invisible">
+        <EditText
+            android:id="@+id/search_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="#151515"
+            android:textCursorDrawable="@drawable/cursor"
+            android:backgroundTint="#30af17"
+        />
+    </FrameLayout>
+
     <ListView
         android:id="@+id/lv_my"
         android:layout_width="match_parent"

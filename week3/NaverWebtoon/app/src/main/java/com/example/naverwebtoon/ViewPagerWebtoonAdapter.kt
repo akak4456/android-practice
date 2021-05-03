@@ -3,12 +3,18 @@ package com.example.naverwebtoon
 import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
-class ViewPagerWebtoonAdapter(private val fragmentAdcitivy:FragmentActivity,private val accessId:String,private val sp:SharedPreferences,private val spWebtoon:SharedPreferences) : FragmentStateAdapter(fragmentAdcitivy) {
+class ViewPagerWebtoonAdapter(
+    private val fragmentAdcitivy: FragmentActivity,
+    private val accessId: String,
+    private val sp: SharedPreferences,
+    private val spWebtoon: SharedPreferences
+) : FragmentStateAdapter(fragmentAdcitivy) {
 
     companion object{
         private const val NUM_PAGES = 7

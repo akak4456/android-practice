@@ -111,7 +111,6 @@ class WebtoonListActivity : AppCompatActivity() {
             binding.tvAdCnt.text = span }
         val timer = timer(period=5000,initialDelay = 5000){
             runOnUiThread { binding.viewPagerAd.currentItem = binding.viewPagerAd.currentItem + 1 }
-
         }
         binding.viewPagerAd.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
