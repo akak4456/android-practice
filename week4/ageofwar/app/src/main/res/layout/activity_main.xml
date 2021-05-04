@@ -55,7 +55,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="270dp"
+        android:layout_height="220dp"
         android:rotation="90"
         app:layout_constraintRight_toRightOf="@+id/guideline_end"
         app:layout_constraintTop_toBottomOf="@+id/show_money"
@@ -63,7 +63,7 @@
 
         <FrameLayout
             android:id="@+id/show_progress"
-            android:layout_width="270dp"
+            android:layout_width="220dp"
             android:layout_height="25dp"
             android:background="@drawable/waiting_border"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -79,8 +79,8 @@
 
         <FrameLayout
             android:id="@+id/waiting_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/waiting_border"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/show_progress"
@@ -94,12 +94,19 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_normal_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/distance_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_distance_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/waiting_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/waiting_border"
             app:layout_constraintLeft_toRightOf="@+id/waiting_1"
             app:layout_constraintTop_toBottomOf="@+id/show_progress"
@@ -113,12 +120,19 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_normal_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/distance_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_distance_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/waiting_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/waiting_border"
             app:layout_constraintLeft_toRightOf="@id/waiting_2"
             app:layout_constraintTop_toBottomOf="@+id/show_progress"
@@ -132,12 +146,19 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_normal_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/distance_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_distance_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/waiting_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/waiting_border"
             app:layout_constraintLeft_toRightOf="@id/waiting_3"
             app:layout_constraintTop_toBottomOf="@+id/show_progress"
@@ -151,12 +172,19 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_normal_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/distance_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_distance_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/waiting_5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/waiting_border"
             app:layout_constraintLeft_toRightOf="@id/waiting_4"
             app:layout_constraintTop_toBottomOf="@+id/show_progress"
@@ -169,6 +197,13 @@
                 android:layout_height="match_parent"
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_normal_soldier"
+                android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/distance_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_distance_soldier"
                 android:visibility="invisible" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -208,13 +243,12 @@
             android:layout_margin="2.6dp"
             android:background="#ff0000" />
     </FrameLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/distance_layout"
         app:layout_constraintRight_toRightOf="parent"
         android:rotation="90"
         android:layout_marginBottom="5dp"
@@ -253,6 +287,51 @@
             android:layout_marginTop="5dp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/distance_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:rotation="90"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="30dp">
+
+        <ImageButton
+            android:id="@+id/btn_make_distance_soldier"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00000000"
+            android:src="@drawable/btn_make_distance_soldier"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            />
+        <ImageView
+            android:id="@+id/distance_coin"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/coin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/distance_price"
+            app:layout_constraintTop_toBottomOf="@+id/btn_make_distance_soldier"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/distance_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25"
+            android:textColor="#ffffff"
+            app:layout_constraintLeft_toRightOf="@+id/distance_coin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_make_distance_soldier"
+            android:layout_marginTop="5dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/resume_layout"
@@ -271,7 +350,7 @@
             android:shadowDy="7.0"
             android:shadowRadius="7.0"
             android:text="Resume"
-            android:textSize="100sp"
+            android:textSize="80sp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
