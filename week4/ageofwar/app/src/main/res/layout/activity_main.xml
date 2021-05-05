@@ -101,6 +101,13 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_distance_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/dinosaur_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_dinosaur_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
@@ -126,6 +133,13 @@
                 android:layout_height="match_parent"
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_distance_soldier"
+                android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/dinosaur_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_dinosaur_soldier"
                 android:visibility="invisible" />
         </FrameLayout>
 
@@ -153,6 +167,13 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_distance_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/dinosaur_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_dinosaur_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
@@ -179,6 +200,13 @@
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_distance_soldier"
                 android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/dinosaur_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_dinosaur_soldier"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <FrameLayout
@@ -204,6 +232,13 @@
                 android:layout_height="match_parent"
                 android:layout_margin="2.6dp"
                 android:src="@drawable/frame_distance_soldier"
+                android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/dinosaur_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2.6dp"
+                android:src="@drawable/frame_dinosaur_soldier"
                 android:visibility="invisible" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -244,6 +279,7 @@
             android:background="#ff0000" />
     </FrameLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/normal_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -293,7 +329,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dinosaur_layout"
         app:layout_constraintRight_toRightOf="parent"
         android:rotation="90"
         android:layout_marginBottom="5dp"
@@ -332,7 +368,51 @@
             android:layout_marginTop="5dp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dinosaur_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:rotation="90"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="30dp">
 
+        <ImageButton
+            android:id="@+id/btn_make_dinosaur_soldier"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00000000"
+            android:src="@drawable/btn_make_dinosaur_soldier"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            />
+        <ImageView
+            android:id="@+id/dinosaur_coin"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/coin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/dinosaur_price"
+            app:layout_constraintTop_toBottomOf="@+id/btn_make_dinosaur_soldier"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/dinosaur_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50"
+            android:textColor="#ffffff"
+            app:layout_constraintLeft_toRightOf="@+id/dinosaur_coin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_make_dinosaur_soldier"
+            android:layout_marginTop="5dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/resume_layout"
         android:layout_width="match_parent"
@@ -357,6 +437,30 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+        app:layout_constraintRight_toLeftOf="@+id/dinosaur_layout"
+        android:rotation="90"
+        android:layout_marginBottom="20dp"
+        >
+        <ImageButton
+            android:id="@+id/btn_multi_attack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/btn_multi_attack"
+            android:background="#00000000"
+            android:scaleType="fitXY"/>
+        <View
+            android:id="@+id/shadow_multi_attack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha=".8"
+            android:background="#000000"
+            android:layout_gravity="bottom"/>
+    </FrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_begin"

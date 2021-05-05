@@ -19,6 +19,7 @@ class GameMainView(
     private val displayMetrics: DisplayMetrics = this.resources.displayMetrics
     private val homeY = dpToPx(20)
     private var homeBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.home)
+    private var fireStoneBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.fire_stone)
     private var paint = Paint()
 
     @SuppressLint("ResourceType")
@@ -49,8 +50,21 @@ class GameMainView(
     private val distanceSoldierAttackDistance: Movie =
         Movie.decodeStream(resources.openRawResource(R.drawable.distance_soldier_attack_distance))
 
+    @SuppressLint("ResourceType")
+    private val dinosaurSoldierStop: Movie =
+        Movie.decodeStream(resources.openRawResource(R.drawable.dinosaur_soldier_stop))
+
+    @SuppressLint("ResourceType")
+    private val dinosaurSoldierWalk: Movie =
+        Movie.decodeStream(resources.openRawResource(R.drawable.dinosaur_soldier_walk))
+
+    @SuppressLint("ResourceType")
+    private val dinosaurSoldierAttack: Movie =
+        Movie.decodeStream(resources.openRawResource(R.drawable.dinosaur_soldier_attack))
+
     private var mySoldierList: ArrayList<SoldierInfo>? = null
     private var enemySoldierList: ArrayList<SoldierInfo>? = null
+    private var fireStoneList:ArrayList<FireStoneInfo>? = null
     private var played = true
     override fun onDraw(canvas: Canvas) {
         // TODO Auto-generated method stub
@@ -150,6 +164,38 @@ class GameMainView(
                                 -homeY-5
                             )
                         }
+                    }else if(mySoldierList!![i].soldierType == "dinosaur_soldier"){
+                        if (mySoldierList!![i].soldierAnimationType == "stop") {
+                            var relTime =
+                                ((now - mySoldierList!![i].soldierAnimationStartTime) % dinosaurSoldierStop.duration()).toInt()
+                            if (played)
+                                dinosaurSoldierStop.setTime(relTime)
+                            dinosaurSoldierStop.draw(
+                                canvas,
+                                mySoldierList!![i].soldierPosition,
+                                -homeY-25
+                            )
+                        } else if (mySoldierList!![i].soldierAnimationType == "walk") {
+                            var relTime =
+                                ((now - mySoldierList!![i].soldierAnimationStartTime) % dinosaurSoldierWalk.duration()).toInt()
+                            if (played)
+                                dinosaurSoldierWalk.setTime(relTime)
+                            dinosaurSoldierWalk.draw(
+                                canvas,
+                                mySoldierList!![i].soldierPosition,
+                                -homeY-25
+                            )
+                        } else if (mySoldierList!![i].soldierAnimationType == "attack") {
+                            var relTime =
+                                ((now - mySoldierList!![i].soldierAnimationStartTime) % dinosaurSoldierAttack.duration()).toInt()
+                            if (played)
+                                dinosaurSoldierAttack.setTime(relTime)
+                            dinosaurSoldierAttack.draw(
+                                canvas,
+                                mySoldierList!![i].soldierPosition - 10,
+                                -homeY -25
+                            )
+                        }
                     }
                     canvas.restore()
                 }
@@ -235,12 +281,55 @@ class GameMainView(
                                 -homeY -5
                             )
                         }
+                    }else if(enemySoldierList!![i].soldierType == "dinosaur_soldier"){
+                        if (enemySoldierList!![i].soldierAnimationType == "stop") {
+                            var relTime =
+                                ((now - enemySoldierList!![i].soldierAnimationStartTime) % dinosaurSoldierStop.duration()).toInt()
+                            if (played)
+                                dinosaurSoldierStop.setTime(relTime)
+                            dinosaurSoldierStop.draw(
+                                canvas,
+                                enemySoldierList!![i].soldierPosition,
+                                -homeY-25
+                            )
+                        } else if (enemySoldierList!![i].soldierAnimationType == "walk") {
+                            var relTime =
+                                ((now - enemySoldierList!![i].soldierAnimationStartTime) % dinosaurSoldierWalk.duration()).toInt()
+                            if (played)
+                                dinosaurSoldierWalk.setTime(relTime)
+                            dinosaurSoldierWalk.draw(
+                                canvas,
+                                enemySoldierList!![i].soldierPosition,
+                                -homeY-25
+                            )
+                        } else if (enemySoldierList!![i].soldierAnimationType == "attack") {
+                            var relTime =
+                                ((now - enemySoldierList!![i].soldierAnimationStartTime) % dinosaurSoldierAttack.duration()).toInt()
+                            if (played)
+                                dinosaurSoldierAttack.setTime(relTime)
+                            dinosaurSoldierAttack.draw(
+                                canvas,
+                                enemySoldierList!![i].soldierPosition - 10,
+                                -homeY-25
+                            )
+                        }
                     }
 
                     canvas.restore()
                 }
             }
         } catch (e: IndexOutOfBoundsException) {
+            this.invalidate()
+        }
+        try{
+            if(fireStoneList != null){
+                for(i in fireStoneList!!.indices){
+                    canvas.save()
+                    canvas.drawBitmap(scaleBitmap(rotateBitmap(fireStoneBitmap,fireStoneList!![i].rot.toFloat()),2.0f,2.0f),fireStoneList!![i].y,fireStoneList!![i].x,paint)
+                    canvas.restore()
+                }
+            }
+        }catch(e:IndexOutOfBoundsException){
             this.invalidate()
         }
         this.invalidate()
@@ -257,6 +346,10 @@ class GameMainView(
 
     fun setEnemySoldierList(list: ArrayList<SoldierInfo>) {
         enemySoldierList = list
+    }
+
+    fun setFireStoneList(list:ArrayList<FireStoneInfo>){
+        fireStoneList = list
     }
 
     fun pxToDp(px: Int): Float {

@@ -2,19 +2,19 @@ package com.example.ageofwar
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ageofwar.databinding.ActivityMainBinding
 import java.util.*
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.BlockingQueue
 import kotlin.collections.ArrayList
+import kotlin.math.cos
+import kotlin.math.sin
 
 class MainActivity : AppCompatActivity() {
     private lateinit var context: Context
@@ -25,20 +25,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private var mySoldierList:ArrayList<SoldierInfo> = ArrayList()
     private var enemySoldierList:ArrayList<SoldierInfo> = ArrayList()
+    private var fireStoneList:ArrayList<FireStoneInfo> = ArrayList()
     private val soldierBetweenThreshold = -85
 
     private val normalSoldierAttackPoint = 1
     private val normalSoldierHp = 20
     private val distanceSoldierAttackPoint = 1
     private val distanceSoldierHp = 20
+    private val dinosaurSoldierAttackPoint = 2
+    private val dinosaurSoldierHp = 20
 
     private val wholeProgress = 25
     private val wholeHp = 200
-    private var myMoney = 200
+    private var myMoney = 1000
     private var myProgress = 0
     private var myQueue:BlockingQueue<String> = ArrayBlockingQueue<String>(5)
     private var myHp = wholeHp
-    private var enemyMoney = 180
+    private var enemyMoney = 1000
     private var enemyProgress = 0
     private var enemyQueue:BlockingQueue<String> = ArrayBlockingQueue<String>(5)
     private var enemyHp = wholeHp
@@ -48,6 +51,12 @@ class MainActivity : AppCompatActivity() {
 
     private var backgroundMusic: MediaPlayer? = null
     private val moneyRatio = 0.7//난이도 조절을 위해 적이 나의 병사를 죽일 때 얻는 돈의 비율 조정
+
+    private val multiAttackRemainTime = 20
+    private var myMultiAttack = 0//0은 공격을 하고 있지 않은 상태로 공격이 가능하다 1~5은 공격을 하고 있는 상태 음수는 공격이 불가능한 상태
+    private var myMultiAttackRemainTime = 0
+    private var enemyMultiAttack = 0//0은 공격을 하고 있지 않은 상태로 공격이 가능하다 1~5은 공격을 하고 있는 상태 음수는 공격이 불가능한 상태
+    private var enemyMultiAttackRemainTime = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -65,7 +74,8 @@ class MainActivity : AppCompatActivity() {
                     synchronized(mySoldierList) {
                         for(i in mySoldierList.indices){
                             if(i == 0){
-                                if(mySoldierList[0].soldierPosition >= 560){
+                                if((mySoldierList[0].soldierType != "dinosaur_soldier"&&mySoldierList[0].soldierPosition >= 560)||
+                                    (mySoldierList[0].soldierType == "dinosaur_soldier"&&mySoldierList[0].soldierPosition >= 500)){
                                     if(mySoldierList[0].soldierAnimationType != "attack"){
                                         mySoldierList[0].soldierAnimationType = "attack"
                                         mySoldierList[0].soldierAnimationStartTime = 0L
@@ -83,7 +93,18 @@ class MainActivity : AppCompatActivity() {
                                         paused = true
                                     }
                                 }else if(enemySoldierList.size > 0){
-                                    if(mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > soldierBetweenThreshold) {
+                                    var soldierBetween = 0
+                                    var distanceSoldierBetween = 0.0
+                                    if(mySoldierList[0].soldierType != "dinosaur_soldier" && enemySoldierList[0].soldierType != "dinosaur_soldier"){
+                                        soldierBetween = soldierBetweenThreshold
+                                        distanceSoldierBetween = soldierBetweenThreshold * 1.4
+                                    }else if(mySoldierList[0].soldierType == "dinosaur_soldier" && enemySoldierList[0].soldierType =="dinosaur_soldier"){
+                                        soldierBetween = -230
+                                    }else{
+                                        soldierBetween = -150
+                                        distanceSoldierBetween = soldierBetweenThreshold * 2.2
+                                    }
+                                    if(mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > soldierBetween) {
                                         if (mySoldierList[0].soldierAnimationType != "attack") {
                                             mySoldierList[0].soldierAnimationType = "attack"
                                             mySoldierList[0].soldierAnimationStartTime = 0L
@@ -96,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                                             }
                                             enemySoldierList.removeAt(0)
                                         }
-                                    }else if(mySoldierList[0].soldierType == "distance_soldier"&&mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > soldierBetweenThreshold*1.4){
+                                    }else if(mySoldierList[0].soldierType == "distance_soldier"&&mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > distanceSoldierBetween){
                                         if(mySoldierList[0].soldierAnimationType != "attack_distance"){
                                             mySoldierList[0].soldierAnimationType = "attack_distance"
                                             mySoldierList[0].soldierAnimationStartTime = 0L
@@ -124,7 +145,17 @@ class MainActivity : AppCompatActivity() {
                                     mySoldierList[0].soldierPosition += dpToPx(1)
                                 }
                             }else{
-                                if(mySoldierList[i-1].soldierPosition-mySoldierList[i].soldierPosition >= 30){
+                                var soldierBetween = 0
+                                if(mySoldierList[i-1].soldierType != "dinosaur_soldier"&&mySoldierList[i].soldierType != "dinosaur_soldier"){
+                                    soldierBetween = 30
+                                }else if(mySoldierList[i-1].soldierType == "dinosaur_soldier" && mySoldierList[i].soldierType == "dinosaur_soldier"){
+                                    soldierBetween = 80
+                                }else if(mySoldierList[i-1].soldierType == "dinosaur_soldier" && mySoldierList[i].soldierType != "dinosaur_soldier"){
+                                    soldierBetween = 20
+                                }else if(mySoldierList[i-1].soldierType != "dinosaur_soldier" && mySoldierList[i].soldierType == "dinosaur_soldier"){
+                                    soldierBetween = 100
+                                }
+                                if(mySoldierList[i-1].soldierPosition-mySoldierList[i].soldierPosition >= soldierBetween){
                                     if(mySoldierList[i].soldierAnimationType != "walk"){
                                         mySoldierList[i].soldierAnimationType = "walk"
                                         mySoldierList[i].soldierAnimationStartTime = 0L
@@ -142,7 +173,8 @@ class MainActivity : AppCompatActivity() {
                     synchronized(enemySoldierList){
                         for(i in enemySoldierList.indices){
                             if(i == 0){
-                                if(enemySoldierList[0].soldierPosition >= -120){
+                                if((enemySoldierList[0].soldierType != "dinosaur_soldier"&&enemySoldierList[0].soldierPosition >= -120)||
+                                    (enemySoldierList[0].soldierType == "dinosaur_soldier"&&enemySoldierList[0].soldierPosition >= -180)){
                                     if(enemySoldierList[0].soldierAnimationType != "attack"){
                                         enemySoldierList[0].soldierAnimationType = "attack"
                                         enemySoldierList[0].soldierAnimationStartTime = 0L
@@ -161,7 +193,18 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 }
                                 else if(mySoldierList.size > 0){
-                                    if(mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > soldierBetweenThreshold) {
+                                    var soldierBetween = 0
+                                    var distanceSoldierBetween = 0.0
+                                    if(mySoldierList[0].soldierType != "dinosaur_soldier" && enemySoldierList[0].soldierType != "dinosaur_soldier"){
+                                        soldierBetween = soldierBetweenThreshold
+                                        distanceSoldierBetween = soldierBetweenThreshold * 1.4
+                                    }else if(mySoldierList[0].soldierType == "dinosaur_soldier" && enemySoldierList[0].soldierType =="dinosaur_soldier"){
+                                        soldierBetween = -230
+                                    }else{
+                                        soldierBetween = -150
+                                        distanceSoldierBetween = soldierBetweenThreshold * 2.2
+                                    }
+                                    if(mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > soldierBetween) {
                                         if (enemySoldierList[0].soldierAnimationType != "attack") {
                                             enemySoldierList[0].soldierAnimationType = "attack"
                                             enemySoldierList[0].soldierAnimationStartTime = 0L
@@ -171,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                                             enemyMoney += (mySoldierList[0].getMoney*moneyRatio).toInt()
                                             mySoldierList.removeAt(0)
                                         }
-                                    }else if(enemySoldierList[0].soldierType == "distance_soldier"&&mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > soldierBetweenThreshold*1.4){
+                                    }else if(enemySoldierList[0].soldierType == "distance_soldier"&&mySoldierList[0].soldierPosition + enemySoldierList[0].soldierPosition > distanceSoldierBetween){
                                         if(enemySoldierList[0].soldierAnimationType != "attack_distance"){
                                             enemySoldierList[0].soldierAnimationType = "attack_distance"
                                             enemySoldierList[0].soldierAnimationStartTime = 0L
@@ -196,7 +239,17 @@ class MainActivity : AppCompatActivity() {
                                     enemySoldierList[0].soldierPosition += dpToPx(1)
                                 }
                             }else{
-                                if(enemySoldierList[i-1].soldierPosition-enemySoldierList[i].soldierPosition >= 30){
+                                var soldierBetween = 0
+                                if(enemySoldierList[i-1].soldierType != "dinosaur_soldier"&&enemySoldierList[i].soldierType != "dinosaur_soldier"){
+                                    soldierBetween = 30
+                                }else if(enemySoldierList[i-1].soldierType == "dinosaur_soldier" && enemySoldierList[i].soldierType == "dinosaur_soldier"){
+                                    soldierBetween = 80
+                                }else if(enemySoldierList[i-1].soldierType == "dinosaur_soldier" && enemySoldierList[i].soldierType != "dinosaur_soldier"){
+                                    soldierBetween = 20
+                                }else if(enemySoldierList[i-1].soldierType != "dinosaur_soldier" && enemySoldierList[i].soldierType == "dinosaur_soldier"){
+                                    soldierBetween = 100
+                                }
+                                if(enemySoldierList[i-1].soldierPosition-enemySoldierList[i].soldierPosition >= soldierBetween){
                                     if(enemySoldierList[i].soldierAnimationType != "walk"){
                                         enemySoldierList[i].soldierAnimationType = "walk"
                                         enemySoldierList[i].soldierAnimationStartTime = 0L
@@ -237,34 +290,51 @@ class MainActivity : AppCompatActivity() {
                         if(myQueue.size == 0){
                             binding.normal1.visibility = View.INVISIBLE
                             binding.distance1.visibility = View.INVISIBLE
+                            binding.dinosaur1.visibility = View.INVISIBLE
                         }
+
                         if(binding.normal2.visibility == View.VISIBLE){
                             binding.normal1.visibility = View.VISIBLE
                             binding.normal2.visibility = View.INVISIBLE
                         }else if(binding.distance2.visibility == View.VISIBLE){
                             binding.distance1.visibility = View.VISIBLE
                             binding.distance2.visibility = View.INVISIBLE
+                        }else if(binding.dinosaur2.visibility == View.VISIBLE){
+                            binding.dinosaur1.visibility = View.VISIBLE
+                            binding.dinosaur2.visibility = View.INVISIBLE
                         }
+
                         if(binding.normal3.visibility == View.VISIBLE){
                             binding.normal2.visibility = View.VISIBLE
                             binding.normal3.visibility = View.INVISIBLE
                         }else if(binding.distance3.visibility == View.VISIBLE){
                             binding.distance2.visibility = View.VISIBLE
                             binding.distance3.visibility = View.INVISIBLE
+                        }else if(binding.dinosaur3.visibility == View.VISIBLE){
+                            binding.dinosaur2.visibility = View.VISIBLE
+                            binding.dinosaur3.visibility = View.INVISIBLE
                         }
+
                         if(binding.normal4.visibility == View.VISIBLE){
                             binding.normal3.visibility = View.VISIBLE
                             binding.normal4.visibility = View.INVISIBLE
                         }else if(binding.distance4.visibility == View.VISIBLE){
                             binding.distance3.visibility = View.VISIBLE
                             binding.distance4.visibility = View.INVISIBLE
+                        }else if(binding.dinosaur4.visibility == View.VISIBLE){
+                            binding.dinosaur3.visibility = View.VISIBLE
+                            binding.dinosaur4.visibility = View.INVISIBLE
                         }
+
                         if(binding.normal5.visibility == View.VISIBLE){
                             binding.normal4.visibility = View.VISIBLE
                             binding.normal5.visibility = View.INVISIBLE
                         }else if(binding.distance5.visibility == View.VISIBLE){
                             binding.distance4.visibility = View.VISIBLE
                             binding.distance5.visibility = View.INVISIBLE
+                        }else if(binding.dinosaur5.visibility == View.VISIBLE){
+                            binding.dinosaur4.visibility = View.VISIBLE
+                            binding.dinosaur5.visibility = View.INVISIBLE
                         }
                     }
                     synchronized(mySoldierList){
@@ -275,7 +345,11 @@ class MainActivity : AppCompatActivity() {
                         if(soldierType == "distance_soldier"){
                             mySoldierList.add(SoldierInfo("distance_soldier",dpToPx(myHomePosition),"walk",now,distanceSoldierAttackPoint,distanceSoldierHp,25))
                         }
+                        if(soldierType == "dinosaur_soldier"){
+                            mySoldierList.add(SoldierInfo("dinosaur_soldier",dpToPx(myHomePosition),"walk",now,dinosaurSoldierAttackPoint,dinosaurSoldierHp,50))
+                        }
                     }
+                    Thread.sleep(100)
                 }
                 Thread.sleep(1000)
             }
@@ -284,9 +358,22 @@ class MainActivity : AppCompatActivity() {
             //적의 병사 생산을 담당함
             while(!finished){
                 while(!paused){
-                    Thread.sleep(3000)
+                    Thread.sleep(500)
                     if(enemyQueue.size < 5){
-                        if(enemyMoney >= 25){
+                        if(enemyMoney >= 50){
+                            val num = Random().nextInt(15)
+                            if(num <= 7){
+                                enemyMoney -= 15
+                                enemyQueue.add("normal_soldier")
+                            }else if(num <= 10){
+                                enemyMoney -= 25
+                                enemyQueue.add("distance_soldier")
+                            }else{
+                                enemyMoney -= 50
+                                enemyQueue.add("dinosaur_soldier")
+                            }
+                        }
+                        else if(enemyMoney >= 25){
                             val num = Random().nextInt(9)
                             if(num <= 5){
                                 enemyMoney -= 15
@@ -322,12 +409,173 @@ class MainActivity : AppCompatActivity() {
                         if(soldierType == "distance_soldier"){
                             enemySoldierList.add(SoldierInfo("distance_soldier",dpToPx(enemyHomePosition),"walk",now,distanceSoldierAttackPoint,distanceSoldierHp,25))
                         }
+                        if(soldierType == "dinosaur_soldier"){
+                            enemySoldierList.add(SoldierInfo("dinosaur_soldier",dpToPx(enemyHomePosition),"walk",now,dinosaurSoldierAttackPoint,dinosaurSoldierHp,50))
+                        }
                     }
+                    Thread.sleep(100)
                 }
                 Thread.sleep(1000)
             }
         }.start()
+        Thread{
+            //fireStone의 움직임을 관리함
+            while(!finished){
+                while(!paused){
+                    /*x는 0~750dp
+                    y는 300dp
+                    rotation(rot)은 -90~-140, -220~-270
+                    로 시작해야 함
+                     */
+                    if(fireStoneList.isNotEmpty()){
+                        for(f in fireStoneList){
+                            if(f.rot >= -180){
+                                f.x += cos((f.rot * Math.PI/180).toFloat())*100
+                                f.y += sin((f.rot * Math.PI/180).toFloat())*100
+                            }else{
+                                f.x -= cos((f.rot * Math.PI/180).toFloat())*100
+                                f.y -= sin((f.rot * Math.PI/180).toFloat())*100
+                            }
 
+                        }
+                        fireStoneList.removeIf { f -> f.y <= 0 }
+                    }
+                    Thread.sleep(200)
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
+        Thread{
+            //나의 멀티 공격 관련
+            while(!finished){
+                while(!paused){
+                    /*x는 0~750dp
+                    y는 300dp
+                    rotation(rot)은 -90~-140, -220~-270
+                    로 시작해야 함
+                     */
+                        if(myMultiAttack in 1..5){
+                            synchronized(myMultiAttack) {
+                                for (i in 1..5) {
+                                    val xRand = dpToPx((0..750).random())
+                                    val y = dpToPx(300)
+                                    val rotCaseRand = (0..1).random()
+                                    var rotRand = 0
+                                    if (rotCaseRand == 0) {
+                                        rotRand = -((90..140).random())
+                                    } else {
+                                        rotRand = -((220..270).random())
+                                    }
+                                    synchronized(fireStoneList) {
+                                        fireStoneList.add(FireStoneInfo(y, xRand, rotRand))
+                                    }
+                                }
+                                myMultiAttack++
+                                synchronized(enemySoldierList){
+                                    if(enemySoldierList.size < 2){
+                                        enemySoldierList.clear()
+                                    }else{
+                                        for(i in 1..2){
+                                            enemySoldierList.removeAt((0 until enemySoldierList.size).random())
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    Thread.sleep(2000)
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
+        Thread{
+            //나의 멀티 공격 대기와 관련이 있음
+            while(!finished){
+                while(!paused){
+                    if(myMultiAttackRemainTime > 0){
+                        synchronized(myMultiAttackRemainTime){
+                            runOnUiThread{
+                                binding.shadowMultiAttack.layoutParams.height = (binding.btnMultiAttack.height * (myMultiAttackRemainTime*1.0f/multiAttackRemainTime)).toInt()
+                                binding.shadowMultiAttack.requestLayout()
+                            }
+                            myMultiAttackRemainTime--
+                        }
+                    }
+                    Thread.sleep(3000)
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
+        Thread{
+            //적의 멀티 공격 관련
+            while(!finished){
+                while(!paused){
+                    /*x는 0~750dp
+                    y는 300dp
+                    rotation(rot)은 -90~-140, -220~-270
+                    로 시작해야 함
+                     */
+                    if(enemyMultiAttack in 1..5){
+                        synchronized(enemyMultiAttack) {
+                            for (i in 1..5) {
+                                val xRand = dpToPx((0..750).random())
+                                val y = dpToPx(300)
+                                val rotCaseRand = (0..1).random()
+                                var rotRand = 0
+                                if (rotCaseRand == 0) {
+                                    rotRand = -((90..140).random())
+                                } else {
+                                    rotRand = -((220..270).random())
+                                }
+                                synchronized(fireStoneList) {
+                                    fireStoneList.add(FireStoneInfo(y, xRand, rotRand))
+                                }
+                            }
+                            enemyMultiAttack++
+                            synchronized(mySoldierList){
+                                if(mySoldierList.size < 2){
+                                    mySoldierList.clear()
+                                }else{
+                                    for(i in 1..2){
+                                        mySoldierList.removeAt((0 until mySoldierList.size).random())
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    Thread.sleep(2000)
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
+        Thread{
+            //적의 멀티 공격 대기와 관련이 있음
+            while(!finished){
+                while(!paused){
+                    if(enemyMultiAttackRemainTime > 0){
+                        synchronized(enemyMultiAttackRemainTime){
+                            enemyMultiAttackRemainTime--
+                        }
+                    }
+                    Thread.sleep(3000)
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
+        Thread{
+            //적의 멀티 공격할지 여부를 판단
+            while(!finished){
+                while(!paused){
+                    if(enemyMultiAttackRemainTime == 0&& (myMultiAttack == 0 || myMultiAttack > 5)&&(1..10).random() <= 2){
+                        enemyMultiAttack = 1
+                        enemyMultiAttackRemainTime = multiAttackRemainTime
+                    }
+                    Thread.sleep(3000)
+                }
+                Thread.sleep(1000)
+            }
+        }.start()
         binding.myHpBar.post{
             binding.myHpBar.layoutParams.width = binding.myHpBarFrame.width
             binding.myHpBar.requestLayout()
@@ -350,6 +598,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.gameView.setMySoldierList(mySoldierList)
         binding.gameView.setEnemySoldierList(enemySoldierList)
+        binding.gameView.setFireStoneList(fireStoneList)
         binding.btnMakeNormalSoldier.setOnClickListener{
             if(myQueue.size < 5){
                 if(myMoney >= 15){
@@ -394,6 +643,42 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.btnMakeDinosaurSoldier.setOnClickListener{
+            if(myQueue.size < 5){
+                if(myMoney >= 50){
+                    myMoney -= 50
+                    myQueue.add("dinosaur_soldier")
+                    runOnUiThread{
+                        binding.showMoney.text = myMoney.toString()
+                        if(isAllInvisible(1)){
+                            binding.dinosaur1.visibility = View.VISIBLE
+                        }else if(isAllInvisible(2)){
+                            binding.dinosaur2.visibility = View.VISIBLE
+                        }else if(isAllInvisible(3)){
+                            binding.dinosaur3.visibility = View.VISIBLE
+                        }else if(isAllInvisible(4)){
+                            binding.dinosaur4.visibility = View.VISIBLE
+                        }else if(isAllInvisible(5)){
+                            binding.dinosaur5.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+        binding.shadowMultiAttack.post{
+            binding.shadowMultiAttack.layoutParams.height = 0
+            binding.shadowMultiAttack.requestLayout()
+        }
+        binding.btnMultiAttack.setOnClickListener{
+            if(myMultiAttackRemainTime == 0 && (enemyMultiAttack == 0 || enemyMultiAttack > 5)){
+                myMultiAttack = 1
+                myMultiAttackRemainTime = multiAttackRemainTime
+                runOnUiThread{
+                    binding.shadowMultiAttack.layoutParams.height = binding.btnMultiAttack.height
+                    binding.shadowMultiAttack.requestLayout()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -407,15 +692,15 @@ class MainActivity : AppCompatActivity() {
 
     fun isAllInvisible(position:Int):Boolean{
         if(position == 1){
-            return binding.normal1.visibility == View.INVISIBLE && binding.distance1.visibility == View.INVISIBLE
+            return binding.normal1.visibility == View.INVISIBLE && binding.distance1.visibility == View.INVISIBLE && binding.dinosaur1.visibility == View.INVISIBLE
         }else if(position == 2){
-            return binding.normal2.visibility == View.INVISIBLE && binding.distance2.visibility == View.INVISIBLE
+            return binding.normal2.visibility == View.INVISIBLE && binding.distance2.visibility == View.INVISIBLE && binding.dinosaur2.visibility == View.INVISIBLE
         }else if(position == 3){
-            return binding.normal3.visibility == View.INVISIBLE && binding.distance3.visibility == View.INVISIBLE
+            return binding.normal3.visibility == View.INVISIBLE && binding.distance3.visibility == View.INVISIBLE && binding.dinosaur3.visibility == View.INVISIBLE
         }else if(position == 4){
-            return binding.normal4.visibility == View.INVISIBLE && binding.distance4.visibility == View.INVISIBLE
+            return binding.normal4.visibility == View.INVISIBLE && binding.distance4.visibility == View.INVISIBLE && binding.dinosaur4.visibility == View.INVISIBLE
         }else if(position == 5){
-            return binding.normal5.visibility == View.INVISIBLE && binding.distance5.visibility == View.INVISIBLE
+            return binding.normal5.visibility == View.INVISIBLE && binding.distance5.visibility == View.INVISIBLE && binding.dinosaur5.visibility == View.INVISIBLE
         }
         return true
     }
