@@ -1,3 +1,9 @@
 package com.example.movieapp
 
-data class MainInfo(val mainTitle:String,val subTitle:String)
+import androidx.recyclerview.widget.RecyclerView
+
+data class MainInfo(
+    val mainTitle:String,
+    val subTitle:String,
+    var results:MutableList<Result>
+)

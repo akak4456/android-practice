@@ -1,11 +1,28 @@
 package com.example.movieapp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var context: Context
+
+    private lateinit var tmdbRetrofit: Retrofit
+    private lateinit var tmdbService:TMDBRetrofitService
 
     private lateinit var binding:ActivityMainBinding
 
@@ -25,13 +42,32 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        context = this
+        binding.mainRv.layoutManager = LinearLayoutManager(this)
 
-        for(idx in mainTitleList.indices){
-            mainInfoList.add(MainInfo(mainTitleList[idx],subTitleList[idx]))
+        initRetrofit()
+        CoroutineScope(Main).launch {
+            //아마 여기에 waiting bar를 그리는 것이 낫지 않을까?
+            val trendRet = async(IO) {
+                tmdbService.getTodayTrend(TMDBRetrofitClient.apiKey,"ko-KR")
+            }
+            val trend = trendRet.await()
+            mainInfoList.add(MainInfo(mainTitleList[0],subTitleList[0],
+                trend.results as MutableList<Result>))
+            mainAdapter = MainAdapter(context,mainInfoList,tmdbService)
+            binding.mainRv.adapter = mainAdapter
         }
 
-        binding.mainRv.layoutManager = LinearLayoutManager(this)
-        mainAdapter = MainAdapter(this,mainInfoList)
-        binding.mainRv.adapter = mainAdapter
+    }
+
+    private fun initRetrofit(){
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val httpClientBuilder:OkHttpClient.Builder = OkHttpClient.Builder()
+        httpClientBuilder.addInterceptor(logging)
+        val httpClient = httpClientBuilder.build()
+        tmdbRetrofit = TMDBRetrofitClient.getInstance(httpClient)
+        tmdbService = tmdbRetrofit.create(TMDBRetrofitService::class.java)
     }
 }
