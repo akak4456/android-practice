@@ -14,7 +14,7 @@
         android:indeterminate="true"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-
+        android:indeterminateTint="#ff7f00"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
