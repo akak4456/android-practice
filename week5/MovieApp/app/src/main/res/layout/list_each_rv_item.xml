@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:paddingBottom="20dp">
+    <ImageView
+        android:id="@+id/show_img"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintDimensionRatio="0.6"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        android:background="@drawable/rounded_main_info_horizontal_item_corner"/>
+    <TextView
+        android:id="@+id/show_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        tools:text="조제"
+
+        app:layout_constraintTop_toBottomOf="@+id/show_img"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginTop="15dp"
+        android:textColor="#ffffff"
+        android:textSize="15sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="&#xffe6; 5,000"
+
+        app:layout_constraintTop_toBottomOf="@+id/show_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        android:textColor="#9c9fa4"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

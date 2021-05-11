@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="&#xffe6; 5000"
+        android:text="&#xffe6; 5,000"
 
         app:layout_constraintTop_toBottomOf="@+id/item_img"
         app:layout_constraintLeft_toLeftOf="parent"

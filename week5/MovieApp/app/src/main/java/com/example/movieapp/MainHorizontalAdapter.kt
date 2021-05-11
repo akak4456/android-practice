@@ -79,6 +79,8 @@ class MainHorizontalAdapter(private val context: Context):RecyclerView.Adapter<R
     }
 
     fun deleteLoading(){
-        items.removeAt(items.lastIndex)
+        if(items[items.lastIndex].backdrop_path == "!") {
+            items.removeAt(items.lastIndex)
+        }
     }
 }
