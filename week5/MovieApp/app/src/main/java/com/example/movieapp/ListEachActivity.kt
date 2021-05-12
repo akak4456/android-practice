@@ -2,11 +2,9 @@ package com.example.movieapp
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.ActivityListEachBinding
 import kotlinx.coroutines.*
@@ -58,7 +56,7 @@ class ListEachActivity : AppCompatActivity() {
         binding.rv.layoutManager = manager
         binding.rv.adapter = adapter
 
-        overridePendingTransition(R.anim.listeach_fadein, R.anim.main_fadeout)
+        overridePendingTransition(R.anim.listeach_main_fadein, R.anim.main_listeach_fadeout)
 
         initRetrofit()
 
@@ -150,13 +148,13 @@ class ListEachActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
 
-        overridePendingTransition(R.anim.main_fadein, R.anim.listeach_fadeout)
+        overridePendingTransition(R.anim.main_listeach_fadein, R.anim.listeach_main_fadeout)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
 
-        overridePendingTransition(R.anim.main_fadein, R.anim.listeach_fadeout)
+        overridePendingTransition(R.anim.main_listeach_fadein, R.anim.listeach_main_fadeout)
     }
 
     private fun initRetrofit(){

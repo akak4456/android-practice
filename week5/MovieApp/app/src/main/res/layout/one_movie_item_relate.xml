@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/relate_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="조제과(와) 비슷한 영화"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:id="@+id/relate_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="나와 비슷한 시청자가 많이 본 영화"
+        android:textColor="#9c9fa6"
+        app:layout_constraintTop_toBottomOf="@+id/relate_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@+id/relate_sub_title"
+        android:clipToPadding="false"
+        android:paddingLeft="20dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

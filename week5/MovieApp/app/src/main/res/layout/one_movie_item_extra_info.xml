@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/extra_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="추가 정보"
+        android:textColor="#ffffff"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/audio_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="오디오"
+        android:textColor="#ffffff"
+
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        app:layout_constraintRight_toLeftOf="@+id/borrow"
+        app:layout_constraintTop_toBottomOf="@+id/extra_info_tv" />
+
+    <TextView
+        android:id="@+id/borrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="대여 기간 만료"
+        android:textColor="#ffffff"
+
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"
+        app:layout_constraintLeft_toRightOf="@+id/audio_tv"
+        app:layout_constraintTop_toBottomOf="@+id/extra_info_tv"/>
+
+    <TextView
+        android:id="@+id/audio_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="한국어[5.1]"
+        android:textColor="#9c9fa6"
+
+        app:layout_constraintTop_toBottomOf="@+id/audio_tv"
+        app:layout_constraintRight_toLeftOf="@+id/borrow_detail"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"/>
+    <TextView
+        android:id="@+id/borrow_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="30일 이내에 시작하여 2일동안 이용할 수 있습니다."
+        android:textColor="#9c9fa6"
+        app:layout_constraintTop_toBottomOf="@+id/audio_tv"
+        app:layout_constraintLeft_toRightOf="@+id/audio_detail"
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+    <TextView
+        android:id="@+id/available"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="사용 가능한 기기"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toBottomOf="@+id/borrow_detail"
+        app:layout_constraintRight_toLeftOf="@+id/refund"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"/>
+    <TextView
+        android:id="@+id/refund"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="환불 정책"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toBottomOf="@+id/borrow_detail"
+        app:layout_constraintLeft_toRightOf="@+id/available"
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+    <TextView
+        android:id="@+id/avaiable_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        tools:text="ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹㅁㄴㅇㄻㄴㅇㄹ"
+
+        app:layout_constraintTop_toBottomOf="@+id/available"
+        app:layout_constraintRight_toLeftOf="@+id/refund_detail"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"/>
+    <TextView
+        android:id="@+id/refund_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        tools:text="ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹㅁㄴㅇㄻㄴㅇㄹ"
+
+        app:layout_constraintTop_toBottomOf="@+id/available"
+        app:layout_constraintLeft_toRightOf="@+id/avaiable_detail"
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

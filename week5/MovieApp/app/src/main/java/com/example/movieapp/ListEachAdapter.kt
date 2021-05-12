@@ -36,7 +36,7 @@ class ListEachAdapter(private val context: Context,private val givenTitle:String
             circularProgressDrawable.start()
 
             Glide.with(context)
-                    .load(TMDBRetrofitClient.imageUrl+model.backdrop_path)
+                    .load(TMDBRetrofitClient.imageUrl+model.poster_path)
                     .placeholder(circularProgressDrawable)
                     .into(binding.showImg)
             binding.showImg.clipToOutline = true

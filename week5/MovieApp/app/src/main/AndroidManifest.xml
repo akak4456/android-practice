@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListEachActivity"/>
+        <activity android:name=".OneMovieActivity"/>
     </application>
 
 </manifest>

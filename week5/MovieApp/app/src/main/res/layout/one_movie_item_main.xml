@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/poster_img"
+        android:layout_width="120dp"
+        android:layout_height="200dp"
+
+        android:layout_marginLeft="20dp"
+        android:scaleType="fitXY"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:src="@drawable/sample_login"
+        android:background="@drawable/rounded_main_info_horizontal_item_corner"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/poster_img"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="조제" />
+
+    <TextView
+        android:id="@+id/release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+
+        android:textColor="#9c9fa6"
+
+        app:layout_constraintLeft_toRightOf="@+id/poster_img"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="2020-01-01" />
+
+    <TextView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="·"
+
+        android:textColor="#9c9fa6"
+
+        app:layout_constraintLeft_toRightOf="@+id/release_date"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/time_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#9c9fa6"
+
+        app:layout_constraintLeft_toRightOf="@+id/dot"
+
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="116분" />
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#9c9fa6"
+
+        app:layout_constraintTop_toBottomOf="@+id/time_length"
+        app:layout_constraintLeft_toRightOf="@+id/poster_img"
+        android:layout_marginLeft="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/poster_img"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/like_btn_off"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="좋아요"
+                android:layout_gravity="center"
+                android:textColor="#9c9fa6"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/unlike_btn_off"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="싫어요"
+                android:layout_gravity="center"
+                android:textColor="#9c9fa6"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/watchlist_btn_off"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="관심 목록"
+                android:layout_gravity="center"
+                android:textColor="#9c9fa6"/>
+        </LinearLayout>
+    </LinearLayout>
+    <com.borjabravo.readmoretextview.ReadMoreTextView
+        android:id="@+id/overview_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="7년 전 의대를 중퇴하고 카페에서 일하는 카산드라는 남성이 몸을 가누기 힘들어하는 자신에게 접근해 합의되지 않은 성관계를 시도하려고 할 때 다시 취하지 않은 모습으로 돌아와 남성을 혼란에 빠뜨리고 밖으로 나와 버린다. 그가 이런 위험한 연극을 반복해온 데는 이유가 있다. 그 사연은 우연히 가게에 라이언이 방문해 카산드라에게 데이트를 신청하면서 점점 수면 위로 떠오른다."
+        app:trimMode="trimModeLine"
+        app:trimLines="2"
+        android:textColor="#9c9fa6"
+        app:layout_constraintTop_toBottomOf="@+id/ll"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/overview_tv"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        app:layout_constraintRight_toRightOf="@+id/guideline_end">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="HD 대여\n&#xffe6; 5,000"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_background"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.48"
+            android:gravity="center"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="HD 구매\n&#xffe6; 9,900"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_background"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.48"
+            android:gravity="center"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
