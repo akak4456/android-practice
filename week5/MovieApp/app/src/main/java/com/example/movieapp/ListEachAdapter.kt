@@ -1,6 +1,7 @@
 package com.example.movieapp
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,6 +43,12 @@ class ListEachAdapter(private val context: Context,private val givenTitle:String
             binding.showImg.clipToOutline = true
 
             binding.showTitle.text = model.title
+
+            binding.showImg.setOnClickListener{
+                val intent = Intent(context,OneMovieActivity::class.java)
+                intent.putExtra("movie_id",model.id)
+                context.startActivity(intent)
+            }
         }
     }
 

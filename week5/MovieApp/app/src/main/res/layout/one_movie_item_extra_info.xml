@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="60dp"
+    android:paddingBottom="20dp">
 
     <TextView
         android:id="@+id/extra_info_tv"
@@ -12,7 +14,8 @@
         android:text="추가 정보"
         android:textColor="#ffffff"
         app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/audio_tv"
@@ -23,7 +26,8 @@
 
         app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
         app:layout_constraintRight_toLeftOf="@+id/borrow"
-        app:layout_constraintTop_toBottomOf="@+id/extra_info_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/extra_info_tv"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/borrow"
@@ -34,7 +38,8 @@
 
         app:layout_constraintRight_toRightOf="@+id/guideline_end"
         app:layout_constraintLeft_toRightOf="@+id/audio_tv"
-        app:layout_constraintTop_toBottomOf="@+id/extra_info_tv"/>
+        app:layout_constraintTop_toBottomOf="@+id/extra_info_tv"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/audio_detail"
@@ -45,7 +50,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/audio_tv"
         app:layout_constraintRight_toLeftOf="@+id/borrow_detail"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"/>
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/borrow_detail"
         android:layout_width="0dp"
@@ -55,7 +61,8 @@
         android:textColor="#9c9fa6"
         app:layout_constraintTop_toBottomOf="@+id/audio_tv"
         app:layout_constraintLeft_toRightOf="@+id/audio_detail"
-        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/available"
         android:layout_width="0dp"
@@ -64,7 +71,8 @@
         android:textColor="#ffffff"
         app:layout_constraintTop_toBottomOf="@+id/borrow_detail"
         app:layout_constraintRight_toLeftOf="@+id/refund"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"/>
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/refund"
         android:layout_width="0dp"
@@ -73,7 +81,8 @@
         android:textColor="#ffffff"
         app:layout_constraintTop_toBottomOf="@+id/borrow_detail"
         app:layout_constraintLeft_toRightOf="@+id/available"
-        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"
+        android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/avaiable_detail"
         android:layout_width="0dp"
@@ -83,7 +92,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/available"
         app:layout_constraintRight_toLeftOf="@+id/refund_detail"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"/>
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_start"
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/refund_detail"
         android:layout_width="0dp"
@@ -93,7 +103,8 @@
 
         app:layout_constraintTop_toBottomOf="@+id/available"
         app:layout_constraintLeft_toRightOf="@+id/avaiable_detail"
-        app:layout_constraintRight_toRightOf="@+id/guideline_end"/>
+        app:layout_constraintRight_toRightOf="@+id/guideline_end"
+        android:layout_marginTop="10dp"/>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="wrap_content"

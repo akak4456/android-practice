@@ -5,35 +5,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="30dp">
+    android:background="@drawable/gradient_background"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp">
     <TextView
-        android:id="@+id/relate_title"
+        android:id="@+id/main_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="조제과(와) 비슷한 영화"
+        tools:text="화창한 날씨입니다!"
+        android:textSize="20sp"
+
         android:textColor="#ffffff"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="20dp"
-        android:textSize="20sp"/>
+        android:layout_marginTop="20dp"/>
     <TextView
-        android:id="@+id/relate_sub_title"
+        android:id="@+id/sub_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="나와 비슷한 시청자가 많이 본 영화"
-        android:textColor="#9c9fa6"
-        app:layout_constraintTop_toBottomOf="@+id/relate_title"
+
+        tools:text="이럴 때 가족과 함께보는 애니메이션은 어떤가요?"
+
+        app:layout_constraintTop_toBottomOf="@+id/main_title_tv"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/sub_title_tv"
 
-        app:layout_constraintTop_toBottomOf="@+id/relate_sub_title"
-        android:clipToPadding="false"
-        android:paddingLeft="20dp"
         android:layout_marginTop="20dp"
-        />
+        android:paddingLeft="20dp"
+        android:clipToPadding="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
