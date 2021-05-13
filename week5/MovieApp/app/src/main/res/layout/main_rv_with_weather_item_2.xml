@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/show_img"
         android:layout_width="240dp"
-        android:layout_height="400dp"
+        android:layout_height="410dp"
         android:scaleType="fitXY"
         android:background="@drawable/rounded_main_info_horizontal_item_corner"/>
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.movieapp
 
 import android.content.Context
 import android.content.Intent
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class MainAdapter(
     val TYPE_ITEM = 1
     val TYPE_WITH_WEATHER = 2
     private var pageNumList = IntArray(info.size) { 1 }
+    private var weatherPage = 1
 
     inner class WithWeatherViewHolder(private val binding: MainRvWithWeatherBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -124,6 +126,38 @@ class MainAdapter(
             val manager = StaggeredGridLayoutManager(2,LinearLayoutManager.HORIZONTAL)
             rv.layoutManager = manager
             withWeatherViewHolder.setData(info[position - 1])
+            rv.addItemDecoration(WithWeatherDecoration(convertDpToPixel(5.0f,context).toInt()))
+
+            rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val itemTotalCount = horizontalAdapter.itemCount - 1
+                    if (!rv.canScrollHorizontally(1)) {
+                        horizontalAdapter.deleteLoading()
+                        if (weatherPage< info[position-1].total_pages) {
+                            CoroutineScope(IO).launch {
+                                weatherPage++
+                                var results: List<Result>? = null
+                                    results = withContext(IO) {
+                                        tmdbService.getMovieListByGenre(
+                                            TMDBRetrofitClient.apiKey,
+                                            info[position-1].genre,
+                                            "ko-KR",
+                                            weatherPage
+                                        )
+                                    }.results
+                                horizontalAdapter.setList(results!!)
+                                withContext(Main) {
+                                    horizontalAdapter.notifyItemRangeChanged(
+                                        itemTotalCount,
+                                        results!!.size + 2
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            })
         } else {
             val newPos = position - 1
             val itemViewHolder: ItemViewHolder = holder as ItemViewHolder
@@ -156,7 +190,7 @@ class MainAdapter(
                                     results = withContext(IO) {
                                         tmdbService.getMovieListByGenre(
                                             TMDBRetrofitClient.apiKey,
-                                            "28,12",
+                                            info[newPos].genre,
                                             "ko-KR",
                                             pageNumList[newPos]
                                         )
@@ -179,4 +213,8 @@ class MainAdapter(
         }
     }
 
+    fun convertDpToPixel(dp: Float, context: Context): Float {
+        return dp * (context.resources
+            .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
 }

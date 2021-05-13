@@ -3,9 +3,12 @@ package com.example.movieapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,18 +19,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Tasks
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import com.kakao.sdk.common.util.Utility
+import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import okhttp3.Dispatcher
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import java.security.MessageDigest
+
 
 class MainActivity : AppCompatActivity() {
     val locationData: MutableLiveData<Location> = MutableLiveData()
@@ -68,8 +75,8 @@ class MainActivity : AppCompatActivity() {
         context = this
         binding.mainRv.layoutManager = LinearLayoutManager(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        initRetrofit()
 
+        initRetrofit()
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(context as MainActivity, REQUIRED_PERMISSIONS[0])
                     || ActivityCompat.shouldShowRequestPermissionRationale(context as MainActivity, REQUIRED_PERMISSIONS[1])) {
@@ -85,8 +92,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             startGPS()
         }
-
-        Log.d("ABC","ABC")
 
         CoroutineScope(Main).launch {
             //아마 여기에 waiting bar를 그리는 것이 낫지 않을까?
@@ -156,11 +161,19 @@ class MainActivity : AppCompatActivity() {
                             mainInfoList.add(MainInfo(mainTitleList[3], subTitleList[3], sf.results as MutableList<Result>, sf.total_pages, SF))
                             mainAdapter = MainAdapter(context, mainInfoList, tmdbService)
                             binding.mainRv.adapter = mainAdapter
+
                         }
 
                     })
                 }
             })
+        }
+
+        binding.bottomAppbar.homeBtnOffImg.visibility = View.INVISIBLE
+        binding.bottomAppbar.homeTv.setTextColor(Color.WHITE)
+        binding.bottomAppbar.watchlistLayout.setOnClickListener{
+            val intent = Intent(context,WatchlistActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -220,5 +233,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
 }

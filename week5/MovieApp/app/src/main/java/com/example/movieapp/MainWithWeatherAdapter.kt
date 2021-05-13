@@ -20,7 +20,7 @@ class MainWithWeatherAdapter(private val context: Context):RecyclerView.Adapter<
     private val TYPE_ITEM_2 = 1
     private val TYPE_LOADING = 2
     private val items = ArrayList<Result>()
-    inner class LoadingViewHolder(private val binding:ItemLoadingBinding):RecyclerView.ViewHolder(binding.root){
+    inner class LoadingViewHolder(private val binding:ItemLoading2Binding):RecyclerView.ViewHolder(binding.root){
 
     }
     inner class Item1ViewHolder(private val binding: MainRvWithWeatherItem1Binding) :
@@ -90,7 +90,7 @@ class MainWithWeatherAdapter(private val context: Context):RecyclerView.Adapter<
                 Item2ViewHolder(bindind)
             }
             else -> {
-                val bindind = ItemLoadingBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                val bindind = ItemLoading2Binding.inflate(LayoutInflater.from(parent.context),parent,false)
                 LoadingViewHolder(bindind)
             }
         }
@@ -103,12 +103,16 @@ class MainWithWeatherAdapter(private val context: Context):RecyclerView.Adapter<
             val item1ViewHolder:Item1ViewHolder = holder
             item1ViewHolder.setData(items[position],position)
         }else if(holder is Item2ViewHolder){
-            Log.d("TMP",position.toString())
             val item2ViewHolder:Item2ViewHolder = holder
             val layoutParams:StaggeredGridLayoutManager.LayoutParams = StaggeredGridLayoutManager.LayoutParams(item2ViewHolder.itemView.layoutParams)
             layoutParams.isFullSpan = true
             item2ViewHolder.itemView.layoutParams = layoutParams
             item2ViewHolder.setData(items[position],position)
+        }else if(holder is LoadingViewHolder){
+            val loadingViewHolder : LoadingViewHolder = holder
+            val layoutParams:StaggeredGridLayoutManager.LayoutParams = StaggeredGridLayoutManager.LayoutParams(loadingViewHolder.itemView.layoutParams)
+            layoutParams.isFullSpan = true
+            loadingViewHolder.itemView.layoutParams = layoutParams
         }
     }
 
