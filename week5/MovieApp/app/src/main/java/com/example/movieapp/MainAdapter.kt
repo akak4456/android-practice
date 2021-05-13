@@ -82,7 +82,7 @@ class MainAdapter(
 
                     binding.loginImage.setOnClickListener{
 
-                        val fragment = ProfileFragment(user?.kakaoAccount?.profile?.profileImageUrl!!,user?.kakaoAccount?.profile?.nickname!!,user?.kakaoAccount?.email!!)
+                        val fragment = ProfileFragment(user?.kakaoAccount?.profile?.profileImageUrl!!,user?.kakaoAccount?.profile?.nickname!!,user?.kakaoAccount?.email)
                         fragment.setStyle(DialogFragment.STYLE_NORMAL,R.style.Dialog)
                         fragment.show((context as MainActivity).supportFragmentManager.beginTransaction(),"dialog_event")
                     }
