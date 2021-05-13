@@ -174,6 +174,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomAppbar.watchlistLayout.setOnClickListener{
             val intent = Intent(context,WatchlistActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }
