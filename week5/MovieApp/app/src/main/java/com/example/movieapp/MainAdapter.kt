@@ -2,20 +2,26 @@ package com.example.movieapp
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arasthel.spannedgridlayoutmanager.SpanSize
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.movieapp.databinding.MainInfoItemBinding
 import com.example.movieapp.databinding.MainRvHeaderBinding
 import com.example.movieapp.databinding.MainRvWithWeatherBinding
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -51,6 +57,37 @@ class MainAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun setHeader() {
             binding.loginImage.clipToOutline = true
+
+            UserApiClient.instance.me { user, error ->
+                if(error != null){
+                    Log.d("KaKao","error 발생")
+                    binding.loginImage.setImageDrawable(context.resources.getDrawable(R.drawable.profile1))
+                }else{
+                    Log.d("KaKao","회원번호: ${user?.id}")
+                    Log.d("KaKao","닉네임: ${user?.kakaoAccount?.profile?.nickname}")
+                    Log.d("KaKao","프로필 링크: ${user?.kakaoAccount?.profile?.profileImageUrl}")
+                    Log.d("KaKao","썸네일 링크: ${user?.kakaoAccount?.profile?.thumbnailImageUrl}")
+                    Log.d("KaKao","이메일: ${user?.kakaoAccount?.email}")
+
+                    val circularProgressDrawable = CircularProgressDrawable(context)
+                    circularProgressDrawable.setColorSchemeColors(Color.parseColor("#ff7f00"))
+                    circularProgressDrawable.strokeWidth = 6f
+                    circularProgressDrawable.centerRadius = 40f
+                    circularProgressDrawable.start()
+
+                    Glide.with(context)
+                        .load(user?.kakaoAccount?.profile?.profileImageUrl)
+                        .placeholder(circularProgressDrawable)
+                        .into(binding.loginImage)
+
+                    binding.loginImage.setOnClickListener{
+
+                        val fragment = ProfileFragment(user?.kakaoAccount?.profile?.profileImageUrl!!,user?.kakaoAccount?.profile?.nickname!!,user?.kakaoAccount?.email!!)
+                        fragment.setStyle(DialogFragment.STYLE_NORMAL,R.style.Dialog)
+                        fragment.show((context as MainActivity).supportFragmentManager.beginTransaction(),"dialog_event")
+                    }
+                }
+            }
         }
     }
 

@@ -3,11 +3,13 @@ package com.example.movieapp
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.MainInfoItemBinding
 import com.example.movieapp.databinding.MainRvHeaderBinding
 import com.example.movieapp.databinding.MainRvWithWeatherBinding
 import com.example.movieapp.databinding.WatchlistHeaderBinding
+import com.kakao.sdk.user.UserApiClient
 
 class WatchlistAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TYPE_HEADER = 0
@@ -15,6 +17,19 @@ class WatchlistAdapter(private val context: Context): RecyclerView.Adapter<Recyc
 
     inner class HeaderViewHolder(private val binding: WatchlistHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        fun setUp(){
+            binding.logoutBtn.setOnClickListener{
+                UserApiClient.instance.logout { error ->
+                    if (error != null) {
+                        Toast.makeText(context, "로그아웃에 실패하였습니다. 관리자에게 문의해주세요", Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(context, "로그아웃에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                        (context as WatchlistActivity).finish()
+                        context.startActivity(context.intent)
+                    }
+                }
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -42,6 +57,7 @@ class WatchlistAdapter(private val context: Context): RecyclerView.Adapter<Recyc
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is HeaderViewHolder){
             val headerViewHolder : HeaderViewHolder = holder
+            headerViewHolder.setUp()
         }
     }
 }

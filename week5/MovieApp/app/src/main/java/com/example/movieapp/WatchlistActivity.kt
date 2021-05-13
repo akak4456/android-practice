@@ -25,10 +25,6 @@ class WatchlistActivity : AppCompatActivity() {
 
         context = this
 
-        adapter = WatchlistAdapter(context)
-        binding.rv.layoutManager = LinearLayoutManager(context)
-        binding.rv.adapter = adapter
-
         binding.bottomAppbar.watchlistBtnOffImg.visibility = View.INVISIBLE
         binding.bottomAppbar.watchlistTv.setTextColor(Color.WHITE)
 
@@ -38,13 +34,26 @@ class WatchlistActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.rv.visibility = View.INVISIBLE
-
         binding.loginBtn.setOnClickListener{
             if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
                 UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
             }else{
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+            }
+        }
+
+        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+            if (error != null) {
+                binding.rv.visibility = View.INVISIBLE
+                binding.loginLayout.visibility = View.VISIBLE
+            }
+            else if (tokenInfo != null) {
+                binding.rv.visibility = View.VISIBLE
+                binding.loginLayout.visibility = View.INVISIBLE
+
+                adapter = WatchlistAdapter(context)
+                binding.rv.layoutManager = LinearLayoutManager(context)
+                binding.rv.adapter = adapter
             }
         }
     }
@@ -83,11 +92,8 @@ class WatchlistActivity : AppCompatActivity() {
         }
         else if (token != null) {
             Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            finish()
+            startActivity(intent)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("LifeCycle","WatchlistActivity onStart")
     }
 }
