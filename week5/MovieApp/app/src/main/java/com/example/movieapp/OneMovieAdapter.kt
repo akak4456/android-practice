@@ -7,8 +7,11 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.text.style.UpdateAppearance
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -17,10 +20,13 @@ import com.example.movieapp.databinding.OneMovieHeaderBinding
 import com.example.movieapp.databinding.OneMovieItemExtraInfoBinding
 import com.example.movieapp.databinding.OneMovieItemMainBinding
 import com.example.movieapp.databinding.OneMovieItemRelateBinding
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.AuthErrorCause
+import com.kakao.sdk.user.UserApiClient
 import java.lang.reflect.Method
 
 
-class OneMovieAdapter(private val context: Context, private val oneMovieInfo:OneMovieInfo,private val tmdbService:TMDBRetrofitService): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class OneMovieAdapter(private val context: Context, private val oneMovieInfo:OneMovieInfo,private val watchlistDao:WatchlistDao,private val userId:Long): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TYPE_HEADER = 0
     val TYPE_ITEM_MAIN = 1
     val TYPE_ITEM_RELATE = 2
@@ -50,7 +56,7 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
             binding.rate.text = oneMovieInfo.oneMovie.vote_average.toString()+" ★"
 
             val overview = SpannableStringBuilder(oneMovieInfo.oneMovie.overview)
-            overview.setSpan(ForegroundColorSpan(Color.parseColor("#9c9fa6")),0,oneMovieInfo.oneMovie.overview.length,
+            overview.setSpan(ForegroundColorSpan(Color.parseColor("#9c9fa6")),0,overview.length,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE )
             var castsText = ""
             val castEnd = (oneMovieInfo.credits.cast.size - 1).coerceAtMost(2)
@@ -102,7 +108,37 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
             binding.overviewTv.text = TextUtils.concat(overview,"\n\n",cast,"\n\n",director,"\n\n",writer,"\n\n",producer,"\n")//간략히를 개행하기 위해서 반드시 마지막에 개행문자 넣기
             binding.overviewTv.setTrimCollapsedText("더보기")
             binding.overviewTv.setTrimExpandedText("간략히")
-
+            Log.d("TMP","ABC")
+            val entities:Array<WatchlistEntity> = watchlistDao.getWatchlistByIdAndOneMovieId(userId,oneMovieInfo.oneMovie.id)
+            if(entities.isEmpty()){
+                binding.watchlistBtnOnLayout.visibility = View.INVISIBLE
+                binding.watchlistBtnOffLayout.visibility = View.VISIBLE
+            }else{
+                binding.watchlistBtnOnLayout.visibility = View.VISIBLE
+                binding.watchlistBtnOffLayout.visibility = View.INVISIBLE
+            }
+            if(userId != -1L){
+                binding.watchlistBtnOnLayout.setOnClickListener{
+                    binding.watchlistBtnOnLayout.visibility = View.INVISIBLE
+                    binding.watchlistBtnOffLayout.visibility = View.VISIBLE
+                    watchlistDao.deleteWatchlist(userId,oneMovieInfo.oneMovie.id)
+                }
+                binding.watchlistBtnOffLayout.setOnClickListener{
+                    Log.d("TMP","ABC")
+                    binding.watchlistBtnOnLayout.visibility = View.VISIBLE
+                    binding.watchlistBtnOffLayout.visibility = View.INVISIBLE
+                    val watchlistEntity = WatchlistEntity(0,userId,oneMovieInfo.oneMovie.id,oneMovieInfo.oneMovie.poster_path,oneMovieInfo.oneMovie.title,oneMovieInfo.oneMovie.release_date,oneMovieInfo.oneMovie.runtime.toString())
+                    watchlistDao.insertWatchlist(watchlistEntity)
+                }
+            }else{
+                binding.watchlistBtnOffLayout.setOnClickListener{
+                    if(UserApiClient.instance.isKakaoTalkLoginAvailable(context)){
+                        UserApiClient.instance.loginWithKakaoTalk(context, callback = callback)
+                    }else{
+                        UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                    }
+                }
+            }
 
         }
 
@@ -197,5 +233,44 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
             }
         }
 
+    }
+
+    val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error != null) {
+            when {
+                error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+                    Toast.makeText(context, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+                    Toast.makeText(context, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+                    Toast.makeText(context, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+                    Toast.makeText(context, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+                    Toast.makeText(context, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+                    Toast.makeText(context, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.ServerError.toString() -> {
+                    Toast.makeText(context, "서버 내부 에러", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+                    Toast.makeText(context, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
+                }
+                else -> { // Unknown
+                    Toast.makeText(context, "기타 에러", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        else if (token != null) {
+            Toast.makeText(context, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            (context as OneMovieActivity).finish()
+            context.startActivity((context as OneMovieActivity).intent)
+        }
     }
 }

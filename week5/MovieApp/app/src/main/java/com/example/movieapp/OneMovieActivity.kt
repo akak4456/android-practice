@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.movieapp.databinding.ActivityOneMovieBinding
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -30,6 +32,7 @@ class OneMovieActivity : AppCompatActivity() {
     private lateinit var tmdbService: TMDBRetrofitService
     private var movieId = 0
     private lateinit var oneMovieAdapter: OneMovieAdapter
+    private lateinit var watchlistDao:WatchlistDao
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOneMovieBinding.inflate(layoutInflater)
@@ -40,7 +43,7 @@ class OneMovieActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.onemovie_main_fadein, R.anim.main_onemovie_fadeout)
 
         binding.rv.layoutManager = LinearLayoutManager(context)
-
+        accessDatabase()
         initRetrofit()
         CoroutineScope(Main).launch {
             val oneRet = async(IO) {
@@ -57,9 +60,23 @@ class OneMovieActivity : AppCompatActivity() {
             val credits = creditsRet.await()
             val firstResult = firstResultRet.await()
 
-            val oneMovieInfo = OneMovieInfo(oneMovie, credits, firstResult.results, firstResult.total_pages, movieId)
-            oneMovieAdapter = OneMovieAdapter(context, oneMovieInfo, tmdbService)
-            binding.rv.adapter = oneMovieAdapter
+            UserApiClient.instance.me { user, error ->
+                var userId = -1L
+                if(error != null){
+                    Log.d("KaKao","error 발생")
+                }else{
+                    Log.d("KaKao","회원번호: ${user?.id}")
+                    Log.d("KaKao","닉네임: ${user?.kakaoAccount?.profile?.nickname}")
+                    Log.d("KaKao","프로필 링크: ${user?.kakaoAccount?.profile?.profileImageUrl}")
+                    Log.d("KaKao","썸네일 링크: ${user?.kakaoAccount?.profile?.thumbnailImageUrl}")
+                    Log.d("KaKao","이메일: ${user?.kakaoAccount?.email}")
+                    userId = user?.id!!
+                }
+                val oneMovieInfo = OneMovieInfo(oneMovie, credits, firstResult.results, firstResult.total_pages, movieId)
+                oneMovieAdapter = OneMovieAdapter(context, oneMovieInfo, watchlistDao,userId)
+                binding.rv.adapter = oneMovieAdapter
+            }
+
 
             //배경화면 설정 아래부터
             val circularProgressDrawable = CircularProgressDrawable(context)
@@ -92,6 +109,7 @@ class OneMovieActivity : AppCompatActivity() {
                 }
             }
         })
+
     }
 
     override fun finish() {
@@ -126,5 +144,10 @@ class OneMovieActivity : AppCompatActivity() {
     fun dpToPx(dp: Int): Int {
         val displayMetrics: DisplayMetrics = this.resources.displayMetrics
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+    }
+
+    private fun accessDatabase(){
+        val database = WatchlistDatabase.getInstance(this)!!
+        watchlistDao = database.watchlistDao()
     }
 }

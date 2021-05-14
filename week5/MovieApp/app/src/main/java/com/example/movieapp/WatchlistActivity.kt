@@ -18,11 +18,12 @@ class WatchlistActivity : AppCompatActivity() {
     private lateinit var binding:ActivityWatchlistBinding
     private lateinit var context: Context
     private lateinit var adapter:WatchlistAdapter
+    private lateinit var watchlistDao:WatchlistDao
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWatchlistBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        accessDatabase()
         context = this
 
         binding.bottomAppbar.watchlistBtnOffImg.visibility = View.INVISIBLE
@@ -50,8 +51,7 @@ class WatchlistActivity : AppCompatActivity() {
             else if (tokenInfo != null) {
                 binding.rv.visibility = View.VISIBLE
                 binding.loginLayout.visibility = View.INVISIBLE
-
-                adapter = WatchlistAdapter(context)
+                adapter = WatchlistAdapter(context,watchlistDao.getWatchlistById(tokenInfo.id).toCollection(ArrayList()),watchlistDao)
                 binding.rv.layoutManager = LinearLayoutManager(context)
                 binding.rv.adapter = adapter
             }
@@ -95,5 +95,10 @@ class WatchlistActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
+    }
+
+    private fun accessDatabase(){
+        val database = WatchlistDatabase.getInstance(this)!!
+        watchlistDao = database.watchlistDao()
     }
 }
