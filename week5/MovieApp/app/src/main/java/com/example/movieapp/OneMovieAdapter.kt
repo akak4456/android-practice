@@ -55,7 +55,11 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
             binding.timeLength.text = oneMovieInfo.oneMovie.runtime.toString()+"분"
             binding.rate.text = oneMovieInfo.oneMovie.vote_average.toString()+" ★"
 
-            val overview = SpannableStringBuilder(oneMovieInfo.oneMovie.overview)
+            var overviewText="줄거리 제공 없음"
+            if(oneMovieInfo.oneMovie.overview.isNotEmpty()){
+                overviewText = oneMovieInfo.oneMovie.overview
+            }
+            val overview = SpannableStringBuilder(overviewText)
             overview.setSpan(ForegroundColorSpan(Color.parseColor("#9c9fa6")),0,overview.length,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE )
             var castsText = ""
