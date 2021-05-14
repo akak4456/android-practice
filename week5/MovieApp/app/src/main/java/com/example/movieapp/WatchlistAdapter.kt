@@ -19,7 +19,7 @@ class WatchlistAdapter(private val context: Context): RecyclerView.Adapter<Recyc
         RecyclerView.ViewHolder(binding.root) {
         fun setUp(){
             binding.logoutBtn.setOnClickListener{
-                UserApiClient.instance.logout { error ->
+                UserApiClient.instance.unlink { error ->
                     if (error != null) {
                         Toast.makeText(context, "로그아웃에 실패하였습니다. 관리자에게 문의해주세요", Toast.LENGTH_SHORT).show()
                     }else {
