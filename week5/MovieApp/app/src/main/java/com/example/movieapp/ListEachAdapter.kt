@@ -24,6 +24,10 @@ class ListEachAdapter(private val context: Context,private val givenTitle:String
             RecyclerView.ViewHolder(binding.root) {
         fun setTitle(title:String){
             binding.title.text = title
+
+            binding.leftArrowBtn.setOnClickListener{
+                (context as ListEachActivity).finish()
+            }
         }
     }
 

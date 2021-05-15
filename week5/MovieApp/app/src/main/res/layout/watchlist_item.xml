@@ -10,6 +10,7 @@
     android:paddingTop="20dp"
     android:clickable="true"
     android:focusable="true"
+    android:background="?attr/selectableItemBackground"
     android:id="@+id/watchlist_item_layout">
     <ImageView
         android:id="@+id/item_img"
@@ -22,14 +23,17 @@
         app:layout_constraintLeft_toLeftOf="parent" />
     <TextView
         android:id="@+id/item_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
 
         tools:text="최면"
-
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/item_img"
+        app:layout_constraintRight_toLeftOf="@+id/watchlist_delete_btn"
         android:textColor="#ffffffff"
+        android:layout_marginRight="10dp"
         android:layout_marginLeft="20dp"/>
     <TextView
         android:id="@+id/release_date_and_runtime"

@@ -36,6 +36,13 @@ class OneMovieHorizontalAdapter(private val context: Context): RecyclerView.Adap
             binding.itemImg.clipToOutline = true
 
             binding.title.text = model.title
+
+            binding.itemImg.setOnClickListener{
+                val intent = Intent(context,OneMovieActivity::class.java)
+                intent.putExtra("movie_id",model.id)
+                (context as OneMovieActivity).finish()
+                context.startActivity(intent)
+            }
         }
     }
 

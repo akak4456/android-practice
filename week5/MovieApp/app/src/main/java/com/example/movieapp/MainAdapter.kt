@@ -1,5 +1,6 @@
 package com.example.movieapp
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -8,6 +9,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -21,6 +24,8 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.databinding.MainInfoItemBinding
 import com.example.movieapp.databinding.MainRvHeaderBinding
 import com.example.movieapp.databinding.MainRvWithWeatherBinding
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -57,11 +62,17 @@ class MainAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun setHeader() {
             binding.loginImage.clipToOutline = true
-
             UserApiClient.instance.me { user, error ->
                 if(error != null){
                     Log.d("KaKao","error 발생")
                     binding.loginImage.setImageDrawable(context.resources.getDrawable(R.drawable.profile1))
+                    binding.loginImage.setOnClickListener{
+                        if(UserApiClient.instance.isKakaoTalkLoginAvailable(context)){
+                            UserApiClient.instance.loginWithKakaoTalk(context, callback = callback)
+                        }else{
+                            UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                        }
+                    }
                 }else{
                     Log.d("KaKao","회원번호: ${user?.id}")
                     Log.d("KaKao","닉네임: ${user?.kakaoAccount?.profile?.nickname}")
@@ -81,7 +92,6 @@ class MainAdapter(
                         .into(binding.loginImage)
 
                     binding.loginImage.setOnClickListener{
-
                         val fragment = ProfileFragment(user?.kakaoAccount?.profile?.profileImageUrl!!,user?.kakaoAccount?.profile?.nickname!!,user?.kakaoAccount?.email)
                         fragment.setStyle(DialogFragment.STYLE_NORMAL,R.style.Dialog)
                         fragment.show((context as MainActivity).supportFragmentManager.beginTransaction(),"dialog_event")
@@ -254,4 +264,44 @@ class MainAdapter(
         return dp * (context.resources
             .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
+
+    val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error != null) {
+            when {
+                error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+                    Toast.makeText(context, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+                    Toast.makeText(context, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+                    Toast.makeText(context, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+                    Toast.makeText(context, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+                    Toast.makeText(context, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+                    Toast.makeText(context, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.ServerError.toString() -> {
+                    Toast.makeText(context, "서버 내부 에러", Toast.LENGTH_SHORT).show()
+                }
+                error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+                    Toast.makeText(context, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
+                }
+                else -> { // Unknown
+                    Toast.makeText(context, "기타 에러", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        else if (token != null) {
+            Toast.makeText(context, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            (context as MainActivity).finish()
+            context.startActivity(context.intent)
+        }
+    }
+
 }

@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@drawable/rounded_search_corner"
     android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp">
+    android:layout_marginRight="20dp"
+    android:background="@drawable/rounded_search_corner"
+    android:id="@+id/rv_header">
     <ImageButton
         android:id="@+id/three_line_menu_btn"
         android:layout_width="wrap_content"

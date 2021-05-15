@@ -33,7 +33,11 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
     val TYPE_ITEM_EXTRA_INFO = 3
     var pageNum = 1
     inner class HeaderViewHolder(private val binding: OneMovieHeaderBinding):RecyclerView.ViewHolder(binding.root){
-
+        fun setUp(){
+            binding.leftArrowBtn.setOnClickListener{
+                (context as OneMovieActivity).finish()
+            }
+        }
     }
 
     inner class ItemMainViewHolder(private val binding: OneMovieItemMainBinding):RecyclerView.ViewHolder(binding.root){
@@ -126,13 +130,14 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
                     binding.watchlistBtnOnLayout.visibility = View.INVISIBLE
                     binding.watchlistBtnOffLayout.visibility = View.VISIBLE
                     watchlistDao.deleteWatchlist(userId,oneMovieInfo.oneMovie.id)
+                    Toast.makeText(context,"관심 목록에서 삭제되었습니다",Toast.LENGTH_SHORT).show()
                 }
                 binding.watchlistBtnOffLayout.setOnClickListener{
-                    Log.d("TMP","ABC")
                     binding.watchlistBtnOnLayout.visibility = View.VISIBLE
                     binding.watchlistBtnOffLayout.visibility = View.INVISIBLE
                     val watchlistEntity = WatchlistEntity(0,userId,oneMovieInfo.oneMovie.id,oneMovieInfo.oneMovie.poster_path,oneMovieInfo.oneMovie.title,oneMovieInfo.oneMovie.release_date,oneMovieInfo.oneMovie.runtime.toString())
                     watchlistDao.insertWatchlist(watchlistEntity)
+                    Toast.makeText(context,"관심 목록에 추가되었습니다",Toast.LENGTH_SHORT).show()
                 }
             }else{
                 binding.watchlistBtnOffLayout.setOnClickListener{
@@ -203,6 +208,7 @@ class OneMovieAdapter(private val context: Context, private val oneMovieInfo:One
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is HeaderViewHolder){
             val headerViewHolder:HeaderViewHolder = holder
+            headerViewHolder.setUp()
         }else if(holder is ItemMainViewHolder){
             val itemMainViewHolder:ItemMainViewHolder = holder
             itemMainViewHolder.setData(oneMovieInfo)

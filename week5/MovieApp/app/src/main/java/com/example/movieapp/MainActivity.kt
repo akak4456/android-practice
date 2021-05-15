@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mainAdapter: MainAdapter
 
-    private val mainTitleList: Array<String> = arrayOf("최신영화 전용관", "액션/어드벤처", "마음껏 웃어보세요!", "SF 어드벤처 영화")
-    private val subTitleList: Array<String> = arrayOf("따끈한 신작 영화들을 즐기는 시간", "액션과 모험의 세계로 떠납시다!", "코메디 영화", "")
+    private val mainTitleList: Array<String> = arrayOf("최신영화 전용관", "액션/어드벤처", "마음껏 웃어보세요!", "SF 어드벤처 영화","공포영화","액션 스릴러 영화","범죄 영화")
+    private val subTitleList: Array<String> = arrayOf("따끈한 신작 영화들을 즐기는 시간", "액션과 모험의 세계로 떠납시다!", "코메디 영화", "","","","범인은 과연 누구였을까요?")
     /*
     주의 main과 sub는 1:1대응이 되어야 함
     ex) 최신영화 전용관 은 따끈한 신작 영화들을 즐기는 시간와 같이
@@ -155,10 +155,17 @@ class MainActivity : AppCompatActivity() {
                                 mainInfoList.add(MainInfo("날이 화창합니다!", "이럴 때는 코미디죠!", comedy.results, comedy.total_pages, COMEDY))
                             }else if(weather!! == "Clouds"){
                                 mainInfoList.add(MainInfo("구름이 꼈습니다!","무언가 심상치 않은 분위기군요", crime.results as MutableList<Result>,crime.total_pages,CRIME))
+                            }else if(weather!! == "Mist" || weather!! == "Smoke" || weather!! == "Haze" || weather!! == "Dust" || weather!! == "Fog" || weather!! == "Sand" || weather!! == "Ash"){
+                                mainInfoList.add(MainInfo("밖에 무언가 답답합니다!", "이럴 때는 스릴러가 제격이죠!", thriller.results as MutableList<Result>, thriller.total_pages, THRILLER))
+                            }else if(weather!! == "Squall" || weather!! == "Tornado"){
+                                mainInfoList.add(MainInfo("밖에 바람이 세차게 불어요!", "이럴 때는 스릴러가 제격이죠!", thriller.results as MutableList<Result>, thriller.total_pages, THRILLER))
                             }else{
-                                mainInfoList.add(MainInfo("", "무언가 몽환적이네요!", sf.results as MutableList<Result>, sf.total_pages,SF))
+                                mainInfoList.add(MainInfo("밖에 비가 내려요!", "이럴 때는 스릴러가 제격이죠!", thriller.results as MutableList<Result>, thriller.total_pages, THRILLER))
                             }
                             mainInfoList.add(MainInfo(mainTitleList[3], subTitleList[3], sf.results as MutableList<Result>, sf.total_pages, SF))
+                            mainInfoList.add(MainInfo(mainTitleList[4], subTitleList[4], horror.results as MutableList<Result>, horror.total_pages, HORROR))
+                            mainInfoList.add(MainInfo(mainTitleList[5], subTitleList[5], thriller.results as MutableList<Result>, thriller.total_pages, THRILLER))
+                            mainInfoList.add(MainInfo(mainTitleList[6], subTitleList[6], crime.results as MutableList<Result>, crime.total_pages, CRIME))
                             mainAdapter = MainAdapter(context, mainInfoList, tmdbService)
                             binding.mainRv.adapter = mainAdapter
 
@@ -168,7 +175,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-
         binding.bottomAppbar.homeBtnOffImg.visibility = View.INVISIBLE
         binding.bottomAppbar.homeTv.setTextColor(Color.WHITE)
         binding.bottomAppbar.watchlistLayout.setOnClickListener{

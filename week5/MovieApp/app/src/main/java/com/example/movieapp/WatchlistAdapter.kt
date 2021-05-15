@@ -61,6 +61,8 @@ class WatchlistAdapter(private val context: Context,private val entities:ArrayLi
                 watchlistDao.deleteWatchlist(model.id,model.oneMovieId)
                 entities.removeAt(position)
                 notifyDataSetChanged()
+
+                Toast.makeText(context,"관심 목록에서 삭제되었습니다",Toast.LENGTH_SHORT).show()
             }
         }
     }
