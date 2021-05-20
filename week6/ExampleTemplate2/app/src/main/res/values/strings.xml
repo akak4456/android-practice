@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">ExampleTemplate2</string>
-    <string name="home">홈</string>
-    <string name="subscription">구독</string>
-    <string name="chat">채팅</string>
-    <string name="search">Search</string>
-    <string name="best_posts">BEST POSTS</string>
-</resources>
